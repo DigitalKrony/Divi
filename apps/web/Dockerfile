@@ -1,14 +1,13 @@
-FROM node:20-alpine
+FROM node:20-bookworm-slim
 
 WORKDIR /app
 
 COPY package*.json ./
 
+COPY . .
+
 RUN npm install
 
-ENV PLAYWRIGHT_BROWSERS_PATH=/app/.cache/ms-playwright
-RUN npx playwright install chromium
-
-COPY . .
+WORKDIR /app/apps/web
 
 EXPOSE 5173 6006

@@ -33,28 +33,30 @@ services:
 
   web:
     build:
-      context: ./apps/web
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./apps/web/Dockerfile
+    working_dir: /app/apps/web 
     ports:
       - "5173:5173"
     volumes:
-      - ./apps/web:/app
-      - /node_modules 
+      - .:/app 
+      - /app/node_modules 
     environment:
       - CHOKIDAR_USEPOLLING=true 
     command: npm run dev -- --host
 
   storybook:
     build:
-      context: ./apps/web
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./apps/web/Dockerfile
+    working_dir: /app/apps/web
     ports:
       - "6006:6006"
     depends_on:
       - web
     volumes:
-      - ./apps/web:/app
-      - /node_modules
+      - .:/app
+      - /app/node_modules
     environment:
       - CHOKIDAR_USEPOLLING=true
     command: npm run storybook
