@@ -1,5 +1,3 @@
-# #MyFriends Sheet
-
 ### Scripts
 
 ---
