@@ -1,6 +1,6 @@
 services:
   api:
-    image: ghcr.io/digitalkrony/divi-api:latest
+    image: ghcr.io/DigitalKrony/divi-api:latest
     container_name: divi_api
     restart: always
     ports:
