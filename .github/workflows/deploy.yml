@@ -10,9 +10,59 @@ permissions:
   packages: write
 
 jobs:
-  build-and-push:
+  test:
+    name: Run Unit Tests
     runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
 
+      - name: Spin up Docker Compose environment
+        run: docker-compose up -d
+
+      - name: Wait for Database to initialize
+        run: sleep 10
+
+      - name: Run Database Migrations
+        run: docker-compose exec -T api alembic upgrade head
+
+      - name: Run Unit Tests
+        run: docker-compose exec -T api pytest
+
+      - name: Shut down environment
+        if: always()
+        run: docker-compose down -v
+
+  check-version:
+    name: Check Version Bump
+    runs-on: ubuntu-latest
+    outputs:
+      bumped: ${{ steps.version_check.outputs.bumped }}
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Compare package.json versions
+        id: version_check
+        run: |
+          _prev=$(git show HEAD~1:package.json | jq -r .version || echo "0.0.0")
+          _cur=$(jq -r .version package.json)
+
+          if [ "$_prev" === "$_cur" ]; then
+            echo "Version ($_cur) hasn't changed. Skipping deployment."
+            echo "bumped=false" >> $GITHUB_OUTPUT
+          else
+            echo "Version bumped to $_cur. Proceeding with deployment."
+            echo "bumped=true" >> $GITHUB_OUTPUT
+          fi
+
+  build-and-push:
+    name: Build and Deploy
+    needs: [test, check-version]
+    if: needs.check-version.outputs.bumped == 'true'
+    runs-on: ubuntu-latest
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4

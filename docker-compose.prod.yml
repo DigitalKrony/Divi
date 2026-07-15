@@ -2,7 +2,7 @@ services:
   api:
     image: ghcr.io/digitalkrony/divi-api:latest
     container_name: divi_api
-    restart: always
+    restart: on-failure:3
     ports:
       - '8000:8000'
     depends_on:
@@ -58,6 +58,8 @@ services:
     environment:
       - WATCHTOWER_CLEANUP=true
       - WATCHTOWER_POLL_INTERVAL=300
+      - WATCHTOWER_NOTIFICATIONS=shoutrrr
+      - WATCHTOWER_NOTIFICATION_URL=${WATCHTOWER_WEBHOOK}
 
 volumes:
   postgres_data_v1:

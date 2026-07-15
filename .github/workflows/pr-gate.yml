@@ -20,6 +20,9 @@ jobs:
       - name: Wait for Database to initialize
         run: sleep 10
 
+      - name: Run Database Migrations
+        run: docker-compose exec -T api alembic upgrade head
+
       - name: Run Unit Tests
         run: docker-compose exec -T api pytest
 

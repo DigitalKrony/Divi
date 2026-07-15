@@ -30,10 +30,14 @@ def root():
 
 @app.get('/health', tags=['Health'])
 def health_check(db: Session = Depends(get_db)):
+  """
+  Uptime monitoring endpoint.
+  If this returns 200 OK, the server and Uvicorn are running!
+  """
 
   try:
     db.execute(text('SELECT 1'))
-    return {'status': 'healthy', 'database': 'connected'}
+    return {'status': 'healthy', 'message': 'API is up and running'}
   except Exception:
     raise HTTPException(status_code=503, detail='Database connection failed')
 
