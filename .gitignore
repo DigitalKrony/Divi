@@ -78,6 +78,7 @@ obj/
 .babel-cache-shell
 .temp
 **/_temp
+myenv/
 
 tsconfig.tsbuildinfo
 npm-debug.log*

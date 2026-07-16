@@ -5,6 +5,7 @@
 When starting the APi for the first time in Dev mode or after making changes to DB run:
 
 ```cmd
+
 docker-compose exec api python seed.py
 ```
 

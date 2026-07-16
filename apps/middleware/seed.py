@@ -1,10 +1,11 @@
 import os
 import json
+import models
 from dateutil import parser
+from sqlalchemy.exc import ProgrammingError
 from sqlalchemy.orm import Session
 from sqlalchemy import text
 from database import SessionLocal
-import models
 
 
 def seed_database(db: Session):
@@ -16,8 +17,14 @@ def seed_database(db: Session):
     return
 
   print('Wiping existing data for a clean slate...')
-  db.execute(text('TRUNCATE TABLE users, groups, events, expenses CASCADE;'))
-  db.commit()
+  try:
+    db.execute(text('TRUNCATE TABLE users, groups, events, expenses CASCADE;'))
+    db.commit()
+  except ProgrammingError:
+    db.rollback()
+    print('Tables do not exist yet. Skipping truncation.')
+
+    print('Inserting seed data...')
 
   base_dir = os.path.dirname(os.path.abspath(__file__))
   json_path = os.path.join(base_dir, './.mock/db.json')

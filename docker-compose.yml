@@ -1,3 +1,5 @@
+name: divi-dashboard-dev
+
 services:
   api:
     container_name: divi_api
@@ -21,6 +23,7 @@ services:
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
   db:
+    container_name: divi_postgres
     image: postgres:15
     restart: unless-stopped
     environment:
@@ -36,26 +39,29 @@ services:
       - postgres_data_v1:/var/lib/postgresql/data
 
   web:
+    container_name: divi_web
     restart: unless-stopped
     build:
       context: .
-      dockerfile: ./apps/web/Dockerfile
+      dockerfile: ./apps/web/Dockerfile.dev
     working_dir: /app/apps/web
     ports:
       - '5173:5173'
     volumes:
       - .:/app
       - /app/node_modules
+      - /app/apps/web/node_modules
     environment:
       CHOKIDAR_USEPOLLING: true
       ENVIRONMENT: ${ENVIRONMENT:-Production}
-    command: npm run dev -- --host
+    command: npm run start:dev
 
   storybook:
+    container_name: divi_dux
     restart: unless-stopped
     build:
       context: .
-      dockerfile: ./apps/web/Dockerfile
+      dockerfile: ./apps/web/Dockerfile.dev
     working_dir: /app/apps/web
     ports:
       - '6006:6006'
@@ -64,10 +70,11 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
+      - /app/apps/web/node_modules
     environment:
       CHOKIDAR_USEPOLLING: true
       ENVIRONMENT: ${ENVIRONMENT:-Production}
-    command: npm run storybook
+    command: npm run start:dux
 
 volumes:
   postgres_data_v1:
