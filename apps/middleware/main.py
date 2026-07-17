@@ -36,7 +36,7 @@ expense_schemas.ExpenseBase.model_rebuild(_types_namespace=shared_namespace)
 expense_schemas.ExpenseCreate.model_rebuild(_types_namespace=shared_namespace)
 expense_schemas.ExpenseResponse.model_rebuild(_types_namespace=shared_namespace)
 
-app = FastAPI(title='Divvy App v0.0.1')
+app = FastAPI(title='Divvy App v0.1.1')
 
 
 @app.get('/health', tags=['Health'])
