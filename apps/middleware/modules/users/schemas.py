@@ -5,15 +5,15 @@ from .models import PayMethodEnum
 
 
 class UserBase(BaseModel):
-  uuid: str
+  display_name: str
   first_name: str
   last_name: str
-  display_name: str
   phone_number: str
   email_address: str
 
 
 class UserCreate(UserBase):
+  display_name: str
   first_name: str
   last_name: str
   email_address: str
@@ -23,8 +23,8 @@ class UserCreate(UserBase):
 
 
 class UserResponse(UserBase):
-  id: int
   uuid: str
+  id: int
 
   address: Optional['AddressResponse'] = None
   pay_accounts: List['PayAccountResponse'] = []

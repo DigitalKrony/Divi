@@ -1,6 +1,8 @@
 from pydantic import BaseModel, ConfigDict
 from typing import List, Optional
 
+# pyright: reportUndefinedVariable=false
+
 
 class GroupBase(BaseModel):
   name: str

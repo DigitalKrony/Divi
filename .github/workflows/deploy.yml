@@ -46,7 +46,7 @@ jobs:
         run: docker compose exec -T api alembic upgrade head
 
       - name: Run Unit Tests
-        run: docker compose exec -T api pytest
+        run: docker compose exec -T api python -m pytest
 
       - name: Shut down environment
         if: always()

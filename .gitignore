@@ -37,6 +37,7 @@ shrinkwrap-deps
 shrinkwrap-deps.json
 
 # generated directory
+.venv/
 Packages/**/lib/
 !Packages/@pcf/**/lib/
 

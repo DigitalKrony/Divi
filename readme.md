@@ -4,6 +4,17 @@ An app to replaces "The Sheet | THE DAMAGE"
 
 ---
 
+Active the virtual Environment then install your requirements
+
+```cmd
+source .venv/bin/activate
+
+pip install -r apps/middleware/requirements.txt
+
+```
+
+---
+
 Run on production server:
 
 ```cmd
