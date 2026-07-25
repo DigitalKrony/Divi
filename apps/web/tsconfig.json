@@ -1,7 +1,7 @@
 {
-  "baseDir": "./src",
+  "files": [],
   "references": [
-    { "path": "./../../.common/config/typescript/tsconfig.node.json" },
-    { "path": "./../../.common/config/typescript/tsconfig.app.json" }
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
   ]
 }

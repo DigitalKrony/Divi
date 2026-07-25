@@ -47,10 +47,10 @@ services:
     working_dir: /app/apps/web
     ports:
       - '5173:5173'
-    volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/apps/web/node_modules
+    # volumes:
+    #   - .:/app:z
+    #   - /app/node_modules
+    #   - /app/apps/web/node_modules
     environment:
       CHOKIDAR_USEPOLLING: true
       ENVIRONMENT: ${ENVIRONMENT:-Production}
@@ -64,13 +64,13 @@ services:
       dockerfile: ./packages/divi-docs/Dockerfile.dev
     working_dir: /app
     ports:
-      - '5175:5175'
+      - '5174:5174'
     depends_on:
       - web
-    volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/packages/divi-docs/node_modules
+    # volumes:
+    #   - .:/app:z
+    #   - /app/node_modules
+    #   - /app/packages/divi-docs/node_modules
     environment:
       CHOKIDAR_USEPOLLING: true
       ENVIRONMENT: ${ENVIRONMENT:-Production}

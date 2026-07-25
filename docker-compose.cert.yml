@@ -1,0 +1,37 @@
+name: divi-dashboard-cert
+
+services:
+  nginx:
+    container_name: divi_nginx
+    restart: always
+    ports:
+      - '80:80'
+      - '443:443'
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    depends_on:
+      - api
+      - web
+    labels:
+      - "diun.enable=false"
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/www/certbot
+
+  certbot:
+    container_name: certbot
+    image: certbot/certbot
+    depends_on:
+      - nginx
+    profiles:
+      - cli-only
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/www/certbot
+    command: certonly --webroot --webroot-path=/var/www/certbot --email adam@funedikly.com --agree-tos --no-eff-email -d divi.funedikly.com
+
+volumes:
+  postgres_data_v1:
+  certbot-etc:
+  certbot-var:

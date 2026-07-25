@@ -1,4 +1,3 @@
-// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
 import storybook from 'eslint-plugin-storybook';
 
 import js from '@eslint/js';
@@ -21,8 +20,8 @@ export default defineConfig([
     languageOptions: {
       globals: globals.browser,
       parserOptions: {
-        project: 'apps/web/tsconfig.json',
-        tsconfigRootDir: import.meta.dirname
+        project: './tsconfig.json',
+        tsconfigRootDir: __dirname
       }
     }
   },

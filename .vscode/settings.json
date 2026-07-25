@@ -3,5 +3,18 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "charliermarsh.ruff"
   },
-  "cSpell.words": ["Funedikly"]
+  "cSpell.words": [
+    "CHOKIDAR",
+    "containrrr",
+    "digitalkrony",
+    "divi",
+    "Funedikly",
+    "Krony",
+    "shoutrrr",
+    "USEPOLLING",
+    "uvicorn"
+  ],
+  "eslint.workingDirectories": [
+    { "mode": "auto" }
+  ]
 }

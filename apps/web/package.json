@@ -8,7 +8,7 @@
     "start:dev": "vite --host",
     "start:dux": "storybook dev -p 6006",
     "start:prod": "npm run build:prod && node server.js",
-    "build:prod": "tsc -b && vite build",
+    "build:prod": "tsc -p tsconfig.app.json && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "build-storybook": "storybook build",

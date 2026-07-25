@@ -1,0 +1,6 @@
+{
+  "extends": "../../.common/config/typescript/tsconfig.node.json",
+  "compilerOptions": {
+  },
+  "include": ["src"]
+}
