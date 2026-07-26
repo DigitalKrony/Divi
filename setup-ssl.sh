@@ -19,11 +19,11 @@ CRON_JOB="0 0,12 * * * cd $PROJECT_DIR && docker compose -f docker-compose.prod.
 echo "Configuring automatic renewal schedule..."
 
 if crontab -l 2>/dev/null | grep -F "$CRON_JOB" > /dev/null; then
-    echo "Cron job already exists. Skipping insertion."
+  echo "Cron job already exists. Skipping insertion."
 else
-    # Append the new job to the existing cron table
-    (crontab -l 2>/dev/null; echo "$CRON_JOB") | crontab -
-    echo "Cron job successfully added!"
+  # Append the new job to the existing cron table
+  (crontab -l 2>/dev/null; echo "$CRON_JOB") | crontab -
+  echo "Cron job successfully added!"
 fi
 
 echo "SSL Setup Complete! You can now uncomment the HTTPS block in your NGINX config and restart the proxy."

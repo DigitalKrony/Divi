@@ -44,7 +44,7 @@ export default defineConfig(({ mode }) => {
           target:
             env.NODE_ENV === "development" || env.NODE_ENV === "test"
               ? "http://localhost:5128/"
-              : "https://app-gva-l9ssf-d05.azurewebsites.us",
+              : "http://localhost:5128/",
           changeOrigin: true,
         },
       },

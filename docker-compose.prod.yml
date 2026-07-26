@@ -53,6 +53,23 @@ services:
     labels:
       - "diun.enable=false"
 
+  storybook:
+    container_name: divi_dux
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./packages/divi-docs/Dockerfile
+    working_dir: /app
+    ports:
+      - '5174:5174'
+    depends_on:
+      - web
+    environment:
+      CHOKIDAR_USEPOLLING: true
+      ENVIRONMENT: ${ENVIRONMENT:-Production}
+      CI: 'true'
+    command: npm run build:docs --no-open
+
   nginx:
     container_name: divi_nginx
     restart: always
@@ -81,8 +98,7 @@ services:
     volumes:
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/www/certbot
-    # command: certonly --config /etc/letsencrypt/cli.ini --standalone -d divi.funedikly.com
-
+    
   diun:
     container_name: divi_diun
     image: crazymax/diun:latest

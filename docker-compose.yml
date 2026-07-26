@@ -47,10 +47,6 @@ services:
     working_dir: /app/apps/web
     ports:
       - '5173:5173'
-    # volumes:
-    #   - .:/app:z
-    #   - /app/node_modules
-    #   - /app/apps/web/node_modules
     environment:
       CHOKIDAR_USEPOLLING: true
       ENVIRONMENT: ${ENVIRONMENT:-Production}
@@ -67,10 +63,6 @@ services:
       - '5174:5174'
     depends_on:
       - web
-    # volumes:
-    #   - .:/app:z
-    #   - /app/node_modules
-    #   - /app/packages/divi-docs/node_modules
     environment:
       CHOKIDAR_USEPOLLING: true
       ENVIRONMENT: ${ENVIRONMENT:-Production}
