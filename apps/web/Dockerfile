@@ -2,11 +2,11 @@ FROM node:26-bookworm-slim
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json package-lock.json ./
+
+RUN npm ic
 
 COPY . .
-
-RUN npm install
 
 WORKDIR /app/apps/web
 

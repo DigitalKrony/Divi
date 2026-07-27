@@ -53,22 +53,22 @@ services:
     labels:
       - "diun.enable=false"
 
-  storybook:
-    container_name: divi_dux
-    restart: unless-stopped
-    build:
-      context: .
-      dockerfile: ./packages/divi-docs/Dockerfile
-    working_dir: /app
-    ports:
-      - '5174:5174'
-    depends_on:
-      - web
-    environment:
-      CHOKIDAR_USEPOLLING: true
-      ENVIRONMENT: ${ENVIRONMENT:-Production}
-      CI: 'true'
-    command: npm run build:docs --no-open
+  # storybook:
+  #   container_name: divi_dux
+  #   restart: unless-stopped
+  #   build:
+  #     context: .
+  #     dockerfile: ./packages/divi-docs/Dockerfile
+  #   working_dir: /app
+  #   ports:
+  #     - '5174:5174'
+  #   depends_on:
+  #     - web
+  #   environment:
+  #     CHOKIDAR_USEPOLLING: true
+  #     ENVIRONMENT: ${ENVIRONMENT:-Production}
+  #     CI: 'true'
+  #   command: npm run build:docs --no-open
 
   nginx:
     container_name: divi_nginx
@@ -89,7 +89,7 @@ services:
       - certbot-var:/var/www/certbot
 
   certbot:
-    container_name: certbot
+    container_name: divi_certbot
     image: certbot/certbot
     depends_on:
       - nginx
@@ -112,7 +112,7 @@ services:
       - LOG_JSON=false
       - DIUN_PROVIDERS_DOCKER=true
       - DIUN_PROVIDERS_DOCKER_WATCHBYDEFAULT=true
-      - DIUN_WATCH_SCHEDULE=0 */6 * * *
+      - DIUN_WATCH_SCHEDULE=0 * * * *
       - DIUN_NOTIF_DISCORD_WEBHOOKURL=${DIUN_WEBHOOK}
 
 volumes:
