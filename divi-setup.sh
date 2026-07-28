@@ -8,11 +8,10 @@ echo "Requesting certificates from Let's Encrypt..."
 docker compose -f docker-compose.prod.yml run --rm certbot certonly \
   --webroot \
   --webroot-path=/var/www/certbot \
-  --email youremail@email.com \
+  --email adam@funedikly.com \
   --agree-tos \
   --no-eff-email \
-  -d yourdomain.com \
-  -d www.yourdomain.com
+  -d divi.funedikly.com \
 
 PROJECT_DIR=$(pwd)
 
