@@ -122,6 +122,7 @@ jobs:
             cd ${{ secrets.PROD_REPO_PATH }}
             docker compose -f docker-compose.prod.yml pull api
             docker compose -f docker-compose.prod.yml up -d --remove-orphans api
+            docker compose -f docker-compose.prod.yml restart nginx
 
   # ==========================================
   # WEB RELEASE
