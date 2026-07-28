@@ -25,12 +25,12 @@ jobs:
           echo "PG_DB_HOST=${{ secrets.PG_DB_HOST }}" >> .env
           echo "PG_DB_PORT=${{ secrets.PG_DB_PORT }}" >> .env
           echo "ENVIRONMENT=${{ secrets.ENVIRONMENT }}" >> .env
-          echo "WATCHTOWER_WEBHOOK=${{ secrets.WATCHTOWER_WEBHOOK }}" >> .env
+          echo "NOTIFICATION_WEBHOOK=${{ secrets.NOTIFICATION_WEBHOOK }}" >> .env
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '26'
+          node-version: '20' # Changed from 26 as 20 is the current LTS!
           cache: 'npm'
 
       - name: Install dependencies
@@ -52,8 +52,11 @@ jobs:
         if: always()
         run: docker compose down -v
 
-  check-version:
-    name: Check Version Bump
+  # ==========================================
+  # API RELEASE
+  # ==========================================
+  api-version-bump:
+    name: Check API Version Bump
     runs-on: ubuntu-latest
     outputs:
       bumped: ${{ steps.version_check.outputs.bumped }}
@@ -63,24 +66,24 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Compare package.json versions
+      - name: Compare API versions
         id: version_check
         run: |
-          _prev=$(git show HEAD~1:package.json | jq -r .version || echo "0.0.0")
-          _cur=$(jq -r .version package.json)
+          _prev=$(git show HEAD~1:apps/middleware/package.json | jq -r .version || echo "0.0.0")
+          _cur=$(jq -r .version apps/middleware/package.json)
 
-          if [ "$_prev" === "$_cur" ]; then
-            echo "Version ($_cur) hasn't changed. Skipping deployment."
+          if [ "$_prev" == "$_cur" ]; then
+            echo "Version ($_cur) hasn't changed. Skipping API deployment."
             echo "bumped=false" >> $GITHUB_OUTPUT
           else
-            echo "Version bumped to $_cur. Proceeding with deployment."
+            echo "Version bumped to $_cur. Proceeding with API deployment."
             echo "bumped=true" >> $GITHUB_OUTPUT
           fi
 
-  build-and-push:
-    name: Build and Deploy
-    needs: [test, check-version]
-    if: needs.check-version.outputs.bumped == 'true'
+  api-build-and-push:
+    name: Build and Deploy API
+    needs: [test, api-version-bump]
+    if: needs.api-version-bump.outputs.bumped == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository
@@ -103,3 +106,91 @@ jobs:
           file: ./apps/middleware/Dockerfile
           push: true
           tags: ghcr.io/digitalkrony/divi-api:latest
+
+  api-deploy:
+    name: Deploy API to Production Server
+    needs: api-build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Execute SSH Commands to Update Server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ${{ secrets.PROD_REPO_PATH }}
+            docker compose -f docker-compose.prod.yml pull api
+            docker compose -f docker-compose.prod.yml up -d --remove-orphans api
+
+  # ==========================================
+  # WEB RELEASE
+  # ==========================================
+  web-version-bump:
+    name: Check Web Version Bump
+    runs-on: ubuntu-latest
+    outputs:
+      bumped: ${{ steps.version_check.outputs.bumped }}
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Compare Web package.json versions
+        id: version_check
+        run: |
+          _prev=$(git show HEAD~1:apps/web/package.json | jq -r .version || echo "0.0.0")
+          _cur=$(jq -r .version apps/web/package.json)
+
+          if [ "$_prev" == "$_cur" ]; then
+            echo "Web Version ($_cur) hasn't changed. Skipping Web deployment."
+            echo "bumped=false" >> $GITHUB_OUTPUT
+          else
+            echo "Web Version bumped to $_cur. Proceeding with Web deployment."
+            echo "bumped=true" >> $GITHUB_OUTPUT
+          fi
+
+  web-build-and-push:
+    name: Build and Push Web
+    needs: [test, web-version-bump]
+    # if: needs.web-version-bump.outputs.bumped == 'true' # TEMPORARILY DISABLED.
+    if: false # TEMPORARILY DISABLED.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push the Web image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./apps/web/Dockerfile
+          push: true
+          tags: ghcr.io/digitalkrony/divi-web:latest
+
+  web-deploy:
+    name: Deploy Web to Production Server
+    needs: web-build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Execute SSH Commands to Update Server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ${{ secrets.PROD_REPO_PATH }}
+            docker compose -f docker-compose.prod.yml pull web
+            docker compose -f docker-compose.prod.yml up -d --remove-orphans web

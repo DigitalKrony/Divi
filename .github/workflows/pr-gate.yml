@@ -22,7 +22,7 @@ jobs:
           echo "PG_DB_HOST=${{ secrets.PG_DB_HOST }}" >> .env
           echo "PG_DB_PORT=${{ secrets.PG_DB_PORT }}" >> .env
           echo "ENVIRONMENT=${{ secrets.ENVIRONMENT }}" >> .env
-          echo "WATCHTOWER_WEBHOOK=${{ secrets.WATCHTOWER_WEBHOOK }}" >> .env
+          echo "NOTIFICATION_WEBHOOK=${{ secrets.NOTIFICATION_WEBHOOK }}" >> .env
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
