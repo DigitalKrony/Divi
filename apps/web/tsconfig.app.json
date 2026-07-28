@@ -1,0 +1,14 @@
+{
+  "extends": "../../.common/config/typescript/tsconfig.app.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "types": ["vite/client", "vitest/globals"],
+    "paths": {
+      "@Components": ["./src/Components"],
+      "@Components/*": ["./src/Components/*"],
+      "@Icons": ["./src/Icons"],
+      "@Icons/*": ["./src/Icons/*"]
+    }
+  },
+  "include": ["src", "./vite.config.ts", "./vite.config.js"]
+}

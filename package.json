@@ -1,7 +1,7 @@
 {
-  "name": "@divvy",
+  "name": "@divi",
   "version": "0.1.1",
-  "description": "The Divvy app from MyFriends",
+  "description": "The Divi app from MyFriends",
   "license": "MIT",
   "author": "Adam Sivins <adam.sivins@gmail.com>",
   "engines": {
@@ -9,7 +9,8 @@
   },
   "scripts": {
     "preinstall": "node ./scripts/setup-env/index.js",
-    "start:docs": "storybook dev -p 5175 -c ./packages/divi-docs/config -- --no-open"
+    "start:docs": "storybook dev -p 5175 -c ./packages/divi-docs/config --no-open",
+    "build:docs": "storybook build -c ./packages/divi-docs/config"
   },
   "workspaces": [
     "apps/*",
@@ -17,7 +18,11 @@
     "scripts/*"
   ],
   "allowScripts": {
-    "esbuild": true
+    "esbuild": true,
+    "@heroui/shared-utils@2.1.12": true,
+    "@carbon/icons-react@11.84.0": true,
+    "@carbon/icon-helpers@10.78.0": true,
+    "vue-demi@0.14.10": true
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

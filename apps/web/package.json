@@ -1,5 +1,5 @@
 {
-  "name": "@divvy/web",
+  "name": "@divi/web",
   "private": true,
   "version": "0.0.1",
   "type": "module",
@@ -7,8 +7,8 @@
     "postinstall": "playwright install chromium",
     "start:dev": "vite --host",
     "start:dux": "storybook dev -p 6006",
-    "start:prod": "npm run build:prod && node server.js",
-    "build:prod": "tsc -b && vite build",
+    "start:prod": "node server.js",
+    "build:prod": "tsc -p tsconfig.app.json && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "build-storybook": "storybook build",

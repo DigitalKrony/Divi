@@ -1,6 +1,20 @@
 name: divi-dashboard-prod
 
 services:
+  db:
+    container_name: divi_postgres
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${PG_DB_USER}
+      POSTGRES_PASSWORD: ${PG_DB_PASS}
+      POSTGRES_DB: ${PG_DB}
+      ENVIRONMENT: ${ENVIRONMENT:-Production}
+    env_file:
+      - .env
+    volumes:
+      - postgres_data_v1:/var/lib/postgresql/data
+
   api:
     container_name: divi_api
     image: ghcr.io/digitalkrony/divi-api:latest
@@ -20,66 +34,88 @@ services:
       - ./apps/middleware:/app
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
-  db:
-    container_name: divi_postgres
-    image: postgres:15
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: ${PG_DB_USER}
-      POSTGRES_PASSWORD: ${PG_DB_PASS}
-      POSTGRES_DB: ${PG_DB}
-      ENVIRONMENT: ${ENVIRONMENT:-Production}
-    ports:
-      - '5432:5432'
-    env_file:
-      - .env
-    volumes:
-      - postgres_data_v1:/var/lib/postgresql/data
-
   web:
     container_name: divi_web
-    image: ghcr.io/digitalkrony/divi-web:latest
+    # image: ghcr.io/DigitalKrony/divi-web:latest
     restart: unless-stopped
+    ports:
+      - '3000:3000'
+    working_dir: /app/apps/web
     build:
       context: .
       dockerfile: ./apps/web/Dockerfile
-    working_dir: /app/apps/web
-    ports:
-      - '3000:3000'
-    volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/apps/web/node_modules
     depends_on:
       - api
     environment:
       CHOKIDAR_USEPOLLING: true
       ENVIRONMENT: ${ENVIRONMENT:-Production}
     command: npm run start:prod
+    labels:
+      - "diun.enable=false"
+
+  # storybook:
+  #   container_name: divi_dux
+  #   restart: unless-stopped
+  #   build:
+  #     context: .
+  #     dockerfile: ./packages/divi-docs/Dockerfile
+  #   working_dir: /app
+  #   ports:
+  #     - '5174:5174'
+  #   depends_on:
+  #     - web
+  #   environment:
+  #     CHOKIDAR_USEPOLLING: true
+  #     ENVIRONMENT: ${ENVIRONMENT:-Production}
+  #     CI: 'true'
+  #   command: npm run build:docs --no-open
 
   nginx:
     container_name: divi_nginx
-    image: nginx:alpine
     restart: always
     ports:
       - '80:80'
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - '443:443'
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
     depends_on:
       - api
       - web
+    labels:
+      - "diun.enable=false"
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/www/certbot
 
-  watchtower:
-    container_name: divi_watchtower
-    image: containrrr/watchtower
+  certbot:
+    container_name: divi_certbot
+    image: certbot/certbot
+    depends_on:
+      - nginx
+    profiles:
+      - cli-only
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/www/certbot
+    
+  diun:
+    container_name: divi_diun
+    image: crazymax/diun:latest
     restart: always
+    command: serve
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - WATCHTOWER_CLEANUP=true
-      - WATCHTOWER_POLL_INTERVAL=300
-      - WATCHTOWER_NOTIFICATIONS=shoutrrr
-      - WATCHTOWER_NOTIFICATION_URL=${WATCHTOWER_WEBHOOK}
+      - TZ=America/Detroit
+      - LOG_LEVEL=info
+      - LOG_JSON=false
+      - DIUN_PROVIDERS_DOCKER=true
+      - DIUN_PROVIDERS_DOCKER_WATCHBYDEFAULT=true
+      - DIUN_WATCH_SCHEDULE=0 * * * *
+      - DIUN_NOTIF_DISCORD_WEBHOOKURL=${DIUN_WEBHOOK}
 
 volumes:
   postgres_data_v1:
+  certbot-etc:
+  certbot-var:

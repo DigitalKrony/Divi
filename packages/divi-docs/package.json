@@ -9,13 +9,14 @@
     "@fluentui/react-context-selector": "^9.2.9",
     "@fluentui/react-utilities": "^9.24.1",
     "@griffel/react": "^1.5.30",
+    "@scalar/api-reference-react": "^0.9.59",
     "@tailwindcss/vite": "^4.1.11",
     "framer-motion": "^11.18.2",
     "react-router": "^8.2.0"
   },
   "devDependencies": {
-    "@df/utilities": "*",
     "@chromatic-com/storybook": "^4.1.1",
+    "@df/utilities": "*",
     "@eslint/js": "^9.25.0",
     "@fluentui/react-jsx-runtime": "^9.2.0",
     "@playwright/test": "^1.55.0",

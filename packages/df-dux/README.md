@@ -1,9 +1,7 @@
-# LAMB UX
-## Michigan Gaming Control Board
+# Design UX
 
 ## Getting Started
 *NOTE: Ensure you're environment is utilizing Node v18+*
-*NOTE: This section of the repo is managed by Yarn*
 
 **First, set up the environment**
 From the repo's rood directory, run:
@@ -12,9 +10,7 @@ npm run setup-env
 ```
 
 **Install dependencies**
-From the `./packages/MGCB-UX` directory run:
+From the `./packages/df-dux` directory run:
 ``` shell
 npm install
 ```
-
-

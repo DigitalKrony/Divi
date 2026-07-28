@@ -24,7 +24,7 @@ export default defineConfig([globalIgnores(["_tpl/*"]), {
     },
     rules: {
         "notice/notice": ["error", {
-            templateFile: "./../../common/config/eslint/copyright.js"
+            templateFile: "./../../.common/config/eslint/copyright.js"
         }],
         'no-unused-vars': 'warn',
     },

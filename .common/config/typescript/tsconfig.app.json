@@ -32,12 +32,6 @@
 
     /* Path Aliases (Add your custom aliases here) */
     "baseUrl": "./",
-    "paths": {
-      "@Components": ["./src/Components"],
-      "@Components/*": ["./src/Components/*"],
-      "@Icons": ["./src/Icons"],
-      "@Icons/*": ["./src/Icons/*"]
-    }
-  },
-  "include": ["src"]
+    
+  }
 }

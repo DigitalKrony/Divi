@@ -9,4 +9,4 @@ RUN npm install
 
 WORKDIR /app
 
-EXPOSE 5175
+EXPOSE 5174
