@@ -30,7 +30,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Changed from 26 as 20 is the current LTS!
+          node-version: '20'
           cache: 'npm'
 
       - name: Install dependencies
