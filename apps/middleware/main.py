@@ -36,7 +36,12 @@ expense_schemas.ExpenseBase.model_rebuild(_types_namespace=shared_namespace)
 expense_schemas.ExpenseCreate.model_rebuild(_types_namespace=shared_namespace)
 expense_schemas.ExpenseResponse.model_rebuild(_types_namespace=shared_namespace)
 
-app = FastAPI(title='Divi App v0.1.1')
+app = FastAPI(
+  title='Divi App v0.1.2',
+  root_path='/api',
+  docs_url='/docs',
+  openapi_url='/openapi.json',
+)
 
 
 @app.get('/health', tags=['Health'])
@@ -58,10 +63,10 @@ app.include_router(groups_router.router)
 app.include_router(events_router.router)
 app.include_router(expenses_router.router)
 
-if __name__ == "__main__":
-    swagger_json = app.openapi()
-    
-    with open("./../../packages/divi-docs/src/swagger.json", "w") as f:
-        json.dump(swagger_json, f, indent=4)
-        
-    print("Successfully generated swagger.json file!")
+if __name__ == '__main__':
+  swagger_json = app.openapi()
+
+  with open('./../../packages/divi-docs/src/swagger.json', 'w') as f:
+    json.dump(swagger_json, f, indent=4)
+
+  print('Successfully generated swagger.json file!')
