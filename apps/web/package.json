@@ -1,7 +1,10 @@
 {
   "name": "@divi/web",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "description": "The Web App for Divi",
+  "license": "MIT",
+  "author": "Adam Sivins<adam.sivins@gmail.com>",
   "type": "module",
   "scripts": {
     "postinstall": "playwright install chromium",
