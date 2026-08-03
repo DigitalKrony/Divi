@@ -6,7 +6,7 @@ import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
   webServer: {
-    command: "npm run start:docs -- --no-open",
+    command: "npm run start:docs:dev -- --no-open", // will fail, needs new ro prompt
     url: "http://localhost:6006",
     reuseExistingServer: true,
   },

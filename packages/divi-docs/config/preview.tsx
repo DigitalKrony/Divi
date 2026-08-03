@@ -12,6 +12,7 @@ import {
   Stories,
 } from "@storybook/addon-docs/blocks";
 
+import './../src/storybook.css';
 import { StoryWrapper } from "../src/StoryWrapper";
 
 export const parameters: Parameters = {

@@ -11,11 +11,10 @@
     "Funedikly",
     "Krony",
     "shoutrrr",
+    "Sivins",
     "USEPOLLING",
     "uvicorn"
   ],
-  "eslint.workingDirectories": [
-    { "mode": "auto" }
-  ],
+  "eslint.workingDirectories": [{ "mode": "auto" }],
   "editor.tabSize": 2
 }

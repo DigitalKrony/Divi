@@ -1,7 +1,13 @@
 {
-  "name": "@divi/ux-docs",
+  "name": "@divi/docs",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./src",
   "scripts": {
-    "start:docs": "storybook dev -p 5175 -c ./config "
+    "build:docs": "STORYBOOK_CACHE_DIR=./.tmp/docs-cache storybook build -c ./config -o ./dist",
+    "start:prod": "STORYBOOK_CACHE_DIR=./.tmp/docs-cache node server.js -c ./config",
+    "start:dev": "STORYBOOK_CACHE_DIR=./.tmp/docs-cache storybook dev -p 5175 -c ./config",
+    "lint": "eslint ."
   },
   "type": "module",
   "dependencies": {
@@ -9,7 +15,6 @@
     "@fluentui/react-context-selector": "^9.2.9",
     "@fluentui/react-utilities": "^9.24.1",
     "@griffel/react": "^1.5.30",
-    "@scalar/api-reference-react": "^0.9.59",
     "@tailwindcss/vite": "^4.1.11",
     "framer-motion": "^11.18.2",
     "react-router": "^8.2.0"
@@ -20,6 +25,7 @@
     "@eslint/js": "^9.25.0",
     "@fluentui/react-jsx-runtime": "^9.2.0",
     "@playwright/test": "^1.55.0",
+    "@scalar/api-reference-react": "^0.9.60",
     "@storybook/addon-a11y": "^9.1.5",
     "@storybook/addon-docs": "^9.1.5",
     "@storybook/addon-vitest": "^9.1.5",
@@ -50,7 +56,7 @@
     "react-docgen-typescript": "^2.4.0",
     "react-test-renderer": "^19.1.1",
     "storybook": "^9.1.5",
-    "typescript": "^5.9.2",
+    "typescript": "~7.0.2",
     "typescript-eslint": "^8.30.1",
     "vite": "^6.3.5",
     "vite-tsconfig-paths": "^5.1.4",

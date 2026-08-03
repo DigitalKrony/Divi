@@ -5,6 +5,4 @@
 export * from "./commonData";
 export * from "./testData";
 
-// Third Party Utils
 export { cn } from "@heroui/react";
-export { useDisclosure, addToast } from "@heroui/react";

@@ -17,7 +17,7 @@ services:
       PG_DB: ${PG_DB}
       PG_DB_HOST: db
       PG_DB_PORT: 5432
-      ENVIRONMENT: ${ENVIRONMENT:-Production}
+      ENVIRONMENT: ${ENVIRONMENT:-Development}
     volumes:
       - ./apps/middleware:/app
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
@@ -30,7 +30,7 @@ services:
       POSTGRES_USER: ${PG_DB_USER}
       POSTGRES_PASSWORD: ${PG_DB_PASS}
       POSTGRES_DB: ${PG_DB}
-      ENVIRONMENT: ${ENVIRONMENT:-Production}
+      ENVIRONMENT: ${ENVIRONMENT:-Development}
     ports:
       - '5432:5432'
     env_file:
@@ -41,33 +41,39 @@ services:
   web:
     container_name: divi_web
     restart: unless-stopped
+    user: '${UID:-1000}:${GID:-1000}'
     build:
       context: .
       dockerfile: ./apps/web/Dockerfile.dev
     working_dir: /app/apps/web
+    volumes:
+      - ./:/app
     ports:
       - '5173:5173'
     environment:
       CHOKIDAR_USEPOLLING: true
-      ENVIRONMENT: ${ENVIRONMENT:-Production}
+      ENVIRONMENT: ${ENVIRONMENT:-Development}
     command: npm run start:dev
 
   storybook:
     container_name: divi_dux
     restart: unless-stopped
+    user: '${UID:-1000}:${GID:-1000}'
     build:
       context: .
       dockerfile: ./packages/divi-docs/Dockerfile.dev
     working_dir: /app
+    volumes:
+      - ./:/app
     ports:
-      - '5174:5174'
+      - '5175:5175'
     depends_on:
       - web
     environment:
       CHOKIDAR_USEPOLLING: true
-      ENVIRONMENT: ${ENVIRONMENT:-Production}
+      ENVIRONMENT: ${ENVIRONMENT:-Development}
       CI: 'true'
-    command: npm run start:docs -- --no-open
+    command: npm run start:docs:dev
 
 volumes:
   postgres_data_v1:

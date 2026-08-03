@@ -1,11 +1,7 @@
+@layer scalar-base, scalar-theme, scalar-config, theme, base, components, utilities;
+
 @import 'tailwindcss';
-@plugin './hero.ts';
-
-@source './../../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
-
-#storybook-root {
-  width: 100%;
-}
+@import '@heroui/styles';
 
 .gap-6 {
   gap: calc(var(--spacing) * 6) /* 1.5rem = 24px */;

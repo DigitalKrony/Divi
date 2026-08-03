@@ -18,7 +18,7 @@ export const Shell = (): JSX.Element => {
   return (
     <div>
       <header>
-        <h1>New</h1>
+        <h1>Divi</h1>
       </header>
     </div>
   )

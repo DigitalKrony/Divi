@@ -6,7 +6,7 @@
 
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { loadEnv } from "vite";
+import { loadEnv, searchForWorkspaceRoot } from "vite";
 import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
@@ -80,6 +80,15 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       target: "es6",
+    },
+    async viteFinal(config: any) {
+      if (config.server) {
+        config.server.fs = {
+          ...config.server.fs,
+          allow: [searchForWorkspaceRoot(process.cwd())],
+        };
+      }
+      return config;
     },
   };
 });
