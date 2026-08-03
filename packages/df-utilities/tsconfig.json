@@ -1,5 +1,6 @@
 {
   "baseDir": "./src",
+  "rootDir": "./src",
   "references": [
     { "path": "./../../.common/config/typescript/tsconfig.node.json" },
     { "path": "./../../.common/config/typescript/tsconfig.app.json" }
@@ -7,6 +8,7 @@
   "compilerOptions": {
     "outDir": "./lib",
     "baseUrl": "./src",
+    "ignoreDeprecations": "6.0",
     "paths": {
       "@/*": ["./src/*"]
     }

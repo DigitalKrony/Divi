@@ -1,19 +1,33 @@
-/// <reference types="vitest" />
+/*!
+ * Copyright (C) Design:Funedikly. All rights reserved.
+ */
 
-import { defineConfig } from 'vitest/config';
-import react from '@vitejs/plugin-react';
+/** @type {import('vite').UserConfig} */
+/** <reference types="vitest" /> */
 
-export default defineConfig({
-  plugins: [react()],
-  test: {
-    globals: true,
-    environment: 'jsdom',
-    setupFiles: './src/setupTests.js',
-    exclude: [
-      'node_modules', 
-      'dist', 
-      'tests/**'
-    ],
-    include: ['src/**/*.test.{js,jsx,ts,tsx}'],
-  },
-})
+import { loadEnv, searchForWorkspaceRoot } from "vite";
+import { defineConfig } from "vitest/config";
+import react from "@vitejs/plugin-react";
+
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), "");
+
+  console.log(
+    `${env.USERNAME} is starting RDG APP v${env.npm_package_version} Server in ${env.NODE_ENV} environment`
+  );
+  return {
+    plugins: [react()],
+    server: {
+      fs: {
+        allow: [searchForWorkspaceRoot(process.cwd())],
+      },
+    },
+    test: {
+      globals: true,
+      environment: "jsdom",
+      setupFiles: "./src/setupTests.js",
+      exclude: ["node_modules", "dist", "tests/**"],
+      include: ["src/**/*.test.{js,jsx,ts,tsx}"],
+    },
+  };
+});

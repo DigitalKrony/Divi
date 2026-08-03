@@ -2,8 +2,8 @@ FROM node:26-bookworm-slim
 
 WORKDIR /app
 
-COPY package*.json ./
-COPY . .
+COPY --chown=$(whoami):$(whoami) package*.json ./
+COPY --chown=$(whoami):$(whoami) . .
 
 RUN npm install
 

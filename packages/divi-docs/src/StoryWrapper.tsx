@@ -6,10 +6,9 @@
 
 import { type FC, type PropsWithChildren } from "react";
 import { BrowserRouter as Router } from "react-router";
-import { HeroUIProvider } from "@heroui/react";
 import { mergeClasses, makeStyles } from "@griffel/react";
 
-import { isDark } from "@df/utilities";
+// import { isDark } from "@df/utilities";
 import "@df/dux/index.css";
 
 import { SchemeToggle } from "./SchemeToggle";
@@ -34,13 +33,14 @@ const useStyles = makeStyles({
   },
 });
 
+const isDark = () => false
+
 export const StoryWrapper: FC<PropsWithChildren<unknown>> = ({ children }) => {
   const classes = useStyles();
 
   return (
     <div className={mergeClasses(classes.storyWrapper)}>
       <Router>
-        <HeroUIProvider>
           <div className={mergeClasses(classes.storyHeader, "story-header")}>
             <SchemeToggle />
           </div>
@@ -54,7 +54,6 @@ export const StoryWrapper: FC<PropsWithChildren<unknown>> = ({ children }) => {
           >
             {children}
           </div>
-        </HeroUIProvider>
       </Router>
     </div>
   );

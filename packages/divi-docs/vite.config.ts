@@ -6,7 +6,7 @@
 
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { loadEnv } from "vite";
+import { loadEnv, searchForWorkspaceRoot } from "vite";
 import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
@@ -37,16 +37,20 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       host: true,
-      port: 5174,
+      port: 5175,
       open: true,
       proxy: {
         "/api": {
           target:
             env.NODE_ENV === "development" || env.NODE_ENV === "test"
-              ? "http://localhost:5128/"
-              : "http://localhost:5128/",
+              ? "https://api:8000/"
+              : "https://divi.funedikly.com",
           changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ""),
         },
+      },
+      fs: {
+        allow: [searchForWorkspaceRoot(process.cwd())],
       },
     },
     preview: {

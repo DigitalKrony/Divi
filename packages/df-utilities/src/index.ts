@@ -14,7 +14,7 @@ export { SortBy } from "./sortBy";
 
 export { cleanObject } from "./cleanObject";
 export { isDark } from "./colorScheme";
-export { mgcbTheme } from "./mgcbTheme";
+export { diviTheme } from "./diviTheme";
 export { mergeJSON } from "./mergeJson";
 export { iterateEnum } from "./iterateEnum";
 export { randomChar } from "./randomChar";
@@ -40,4 +40,3 @@ export * from "./reactHooks";
 
 // Third Party Utils
 export { cn } from "@heroui/react";
-export { useDisclosure, addToast } from "@heroui/react";

@@ -1,17 +1,17 @@
 from fastapi import Depends, FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from database import get_db
-from modules.users import router as users_router
 from modules.events import router as events_router
-from modules.groups import router as groups_router
-from modules.expenses import router as expenses_router
-
-from modules.users import schemas as user_schemas
-from modules.groups import schemas as group_schemas
 from modules.events import schemas as event_schemas
+from modules.expenses import router as expenses_router
 from modules.expenses import schemas as expense_schemas
+from modules.groups import router as groups_router
+from modules.groups import schemas as group_schemas
+from modules.users import router as users_router
+from modules.users import schemas as user_schemas
 
 shared_namespace = {
   'UserBase': user_schemas.UserBase,
@@ -41,6 +41,14 @@ app = FastAPI(
   root_path='/api',
   docs_url='/docs',
   openapi_url='/openapi.json',
+)
+
+app.add_middleware(
+  CORSMiddleware,
+  allow_origin_regex=r'^http://(localhost|127\.0\.0\.1)(:[0-9]+)?$',
+  allow_credentials=True,
+  allow_methods=['*'],
+  allow_headers=['*'],
 )
 
 
