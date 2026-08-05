@@ -18,6 +18,15 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     server: {
+      host: true,
+      port: 5174,
+      open: true,
+      proxy: {
+        "/api":
+          env.NODE_ENV === "development"
+            ? "http://localhost:8000"
+            : "http://localhost:8000",
+      },
       fs: {
         allow: [searchForWorkspaceRoot(process.cwd())],
       },

@@ -2,14 +2,14 @@
   "name": "@divi/docs",
   "version": "0.1.0",
   "private": true,
-  "main": "./src",
+  "main": "./dist",
+  "type": "module",
   "scripts": {
     "build:docs": "STORYBOOK_CACHE_DIR=./.tmp/docs-cache storybook build -c ./config -o ./dist",
     "start:prod": "STORYBOOK_CACHE_DIR=./.tmp/docs-cache node server.js -c ./config",
     "start:dev": "STORYBOOK_CACHE_DIR=./.tmp/docs-cache storybook dev -p 5175 -c ./config",
     "lint": "eslint ."
   },
-  "type": "module",
   "dependencies": {
     "@carbon/icons-react": "^11.70.0",
     "@fluentui/react-context-selector": "^9.2.9",

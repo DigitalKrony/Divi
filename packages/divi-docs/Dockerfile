@@ -5,8 +5,14 @@ WORKDIR /app
 COPY --chown=$(whoami):$(whoami) package*.json ./
 COPY --chown=$(whoami):$(whoami) . .
 
-RUN npm install
+RUN npm i --include=dev --ignore-scripts
 
-WORKDIR /app
+COPY . .
+
+ENV NODE_ENV=production
+
+RUN npm run build:docs --workspace=@divi/docs
+
+# WORKDIR /app/packages/divi-docs
 
 EXPOSE 3001
