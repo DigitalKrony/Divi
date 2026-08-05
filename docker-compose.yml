@@ -45,15 +45,15 @@ services:
     build:
       context: .
       dockerfile: ./apps/web/Dockerfile.dev
-    working_dir: /app/apps/web
+    working_dir: /app
     volumes:
       - ./:/app
     ports:
-      - '5173:5173'
+      - '5174:5174'
     environment:
       CHOKIDAR_USEPOLLING: true
       ENVIRONMENT: ${ENVIRONMENT:-Development}
-    command: npm run start:dev
+    command: npm run start:web:dev
 
   storybook:
     container_name: divi_dux

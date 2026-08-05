@@ -1,9 +1,10 @@
-import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import path from 'node:path';
+import fs from 'node:fs';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import express from 'express';
+
+const _root = path.join(process.env.INIT_CWD ?? process.cwd());
+const __dirname = path.join(_root, `apps`, `web`);
 
 const app = express();
 const PORT = process.env.PORT || 3000;

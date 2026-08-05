@@ -5,8 +5,8 @@ WORKDIR /app
 COPY --chown=$(whoami):$(whoami) package*.json ./
 COPY --chown=$(whoami):$(whoami) . .
 
-RUN npm install
+RUN npm i
 
-WORKDIR /app
+WORKDIR /app/packages/divi-docs
 
-EXPOSE 5174
+EXPOSE 5175

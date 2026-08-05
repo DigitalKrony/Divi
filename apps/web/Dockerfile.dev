@@ -2,12 +2,11 @@ FROM node:26-bookworm-slim
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY --chown=$(whoami):$(whoami) package*.json ./
+COPY --chown=$(whoami):$(whoami) . .
 
-COPY . .
-
-RUN npm install
+RUN npm i
 
 WORKDIR /app/apps/web
 
-EXPOSE 5173 6006
+EXPOSE 5174

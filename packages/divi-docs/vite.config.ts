@@ -40,14 +40,10 @@ export default defineConfig(({ mode }) => {
       port: 5175,
       open: true,
       proxy: {
-        "/api": {
-          target:
-            env.NODE_ENV === "development" || env.NODE_ENV === "test"
-              ? "https://api:8000/"
-              : "https://divi.funedikly.com",
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ""),
-        },
+        "/api":
+          env.NODE_ENV === "development"
+            ? "http://localhost:8000"
+            : "http://localhost:8000",
       },
       fs: {
         allow: [searchForWorkspaceRoot(process.cwd())],
