@@ -36,7 +36,7 @@ services:
     container_name: divi_web
     # image: ghcr.io/DigitalKrony/divi-web:latest
     restart: unless-stopped
-    working_dir: /app/apps/web
+    working_dir: /app
     build:
       context: .
       dockerfile: ./apps/web/Dockerfile
@@ -51,9 +51,9 @@ services:
 
   storybook:
     container_name: divi_docs
-    # image: ghcr.io/digitalkrony/divi-docs:latest
+    image: ghcr.io/digitalkrony/divi-docs:latest
     restart: unless-stopped
-    working_dir: /app/packages/divi-docs
+    working_dir: /app
     build:
       context: .
       dockerfile: ./packages/divi-docs/Dockerfile
