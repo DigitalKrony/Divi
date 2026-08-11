@@ -31,7 +31,8 @@
     "./packages/df-mocker",
     "./packages/df-utilities",
     "./packages/divi-docs",
-    "./scripts/setup-env"
+    "./scripts/utilities/glaze",
+    "./scripts/**/*"
   ],
   "allowScripts": {
     "esbuild": true,

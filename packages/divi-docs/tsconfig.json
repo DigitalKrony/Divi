@@ -2,18 +2,29 @@
   "baseDir": "./src",
   "extends": "./../../.common/config/typescript/tsconfig.app.json",
   "compilerOptions": {
+    "lib": ["ES2024", "DOM", "DOM.Iterable"],
+
     "outDir": "./lib",
-    "baseUrl": "src/",
     "composite": true,
     "declarationMap": true,
+
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+
     "paths": {
-      "@Shell": ["./Shell"],
-      "@Components": ["./Components"],
-      "@Components/*": ["./Components/*"],
-      "@Icons": ["./Icons"],
-      "@Icons/*": ["./Icons/*"]
+      "@": ["./src"],
+      "@/*": ["./src/*"],
+      "@Components": ["./src/components"],
+      "@Components/*": ["./src/components/*"]
     }
   },
   "exclude": ["node_modules", "dist/", "lib/"],
-  "include": ["./src/**/*", "./.storybook/*", "./vite.config.ts", "./global.d.ts"]
+  "include": [
+    "config/**/*",
+    "src/**/*",
+    ".storybook/*",
+    "vite.config.ts",
+    "global.d.ts",
+    "./../../scripts/utilities/**/*"
+  ]
 }

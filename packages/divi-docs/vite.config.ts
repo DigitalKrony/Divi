@@ -6,7 +6,9 @@
 
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+
 import { loadEnv, searchForWorkspaceRoot } from "vite";
+
 import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
@@ -28,6 +30,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react(), tsconfigPaths(), tailwindcss()],
+
     define: {
       "process.env": {
         NODE_ENV: JSON.stringify(env.NODE_ENV),

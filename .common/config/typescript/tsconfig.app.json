@@ -31,7 +31,6 @@
     "noUncheckedSideEffectImports": true,
 
     /* Path Aliases (Add your custom aliases here) */
-    "baseUrl": "./",
-    
+    "baseUrl": "./"
   }
 }
