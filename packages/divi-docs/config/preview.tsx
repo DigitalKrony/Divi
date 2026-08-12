@@ -55,7 +55,7 @@ export const parameters: Parameters = {
         <Description />
         <Primary />
         <Controls />
-        {/* <Stories /> */}
+        <Stories />
       </>
     ),
   },
@@ -67,7 +67,7 @@ export const decorators: Decorator[] = [
 
     return (
       <StoryWrapper>
-        <LoadedStory />
+        <LoadedStory {...options} />
       </StoryWrapper>
     );
   },

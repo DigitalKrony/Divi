@@ -7,27 +7,31 @@ import fs from "node:fs";
 
 import type { StorybookConfig } from "@storybook/react-vite";
 
-const _root = path.join(process.env.INIT_CWD ?? process.cwd());
-const sBlob = `src/**/*.stories.@(js|jsx|mjs|ts|tsx)`;
-const _stories = [];
+const getStories = () => {
+  const _root = path.join(process.env.INIT_CWD ?? process.cwd());
+  const sBlob = `src/**/*@(stories.@(js|jsx|mjs|ts|tsx)|.mdx)`;
+  const _stories = [];
 
-try {
-  let _package = JSON.parse(
-    fs.readFileSync(path.resolve(_root, "package.json"), "utf8")
-  );
+  try {
+    let _package = JSON.parse(
+      fs.readFileSync(path.resolve(_root, "package.json"), "utf8")
+    );
 
-  for (const i in _package.workspaces) {
-    const w = _package.workspaces[i];
-    console.log(`workspace: `, w);
-    const _sp = path.resolve(path.join(_root, w, sBlob));
+    for (const i in _package.workspaces) {
+      const w = _package.workspaces[i];
+      console.log(`workspace: `, w);
+      const _sp = path.resolve(path.join(_root, w, sBlob));
 
-    console.log(`stroy path: `, _sp);
+      console.log(`stroy path: `, _sp);
 
-    _stories.push(`${_sp.replaceAll("\\", "/")}`);
+      _stories.push(`${_sp.replaceAll("\\", "/")}`);
+    }
+  } catch (error) {
+    console.log(`Blob Error: `, error);
   }
-} catch (error) {
-  console.log(`Blob Error: `, error);
-}
+
+  return _stories;
+};
 
 const config: StorybookConfig = {
   framework: {
@@ -37,7 +41,7 @@ const config: StorybookConfig = {
   core: {
     builder: "@storybook/builder-vite",
   },
-  stories: _stories,
+  stories: getStories(),
   addons: [
     "@chromatic-com/storybook",
     "@storybook/addon-docs",
