@@ -33,7 +33,7 @@ const _cmd = (args = { cmd: '', flags: [], callback: undefined }) => {
 
   call.on('close', (code) => {
     if (code === 0) {
-      if (callback) callback();
+      callback && callback();
       return;
     }
 
@@ -61,28 +61,33 @@ const _copy_files = () => {
   try {
     cpSync(resolve(dest_dir, storybook_dir), local_dir, { recursive: true });
     console.log(Glaze.green('Copy complete.'));
+    _clean_third(true);
   } catch (err) {
     console.log(Glaze.red(`An error occurred while trying to copy files`, '\r\n', Glaze.yellow(err)));
   }
 };
 
-const _clean_third = () => {
+const _clean_third = (fin = false) => {
   const doesIt = existsSync(dest_dir);
 
   if (doesIt) {
-    console.log(Glaze.red('Destination directory exists. Removing it to get a fresh version...'));
+    console.log(
+      fin
+        ? Glaze.yellow('Cleaning up...')
+        : Glaze.red('Destination directory exists. Removing it to get a fresh version...')
+    );
 
     _cmd({
       cmd: `rm -rf ${dest_dir}`,
       callback: () => {
         console.log(Glaze.green(`The destination directory, ${dest_dir}, has been removed...`));
 
-        _git_shallow();
+        !fin && _git_shallow();
       },
     });
   } else {
-    console.log(Glaze.blue(`The destination directory, ${dest_dir}, does not exist yet...`));
-    _git_shallow();
+    !fin && console.log(Glaze.blue(`The destination directory, ${dest_dir}, does not exist yet...`));
+    !fin && _git_shallow();
   }
 };
 
