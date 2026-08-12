@@ -1,5 +1,5 @@
 /*!
- * Copyright (C) State of Michigan. All rights reserved.
+ * Copyright (C) Design: Funedikly. All rights reserved.
  */
 
 export { API } from "./api";

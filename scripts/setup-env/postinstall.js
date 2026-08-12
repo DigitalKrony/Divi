@@ -60,11 +60,20 @@ const _copy_files = () => {
 
   try {
     cpSync(resolve(dest_dir, storybook_dir), local_dir, { recursive: true });
+
     console.log(Glaze.green('Copy complete.'));
     _clean_third(true);
+
+    _update_titles();
   } catch (err) {
     console.log(Glaze.red(`An error occurred while trying to copy files`, '\r\n', Glaze.yellow(err)));
   }
+};
+
+const _update_titles = () => {
+  /**
+   * Add Step to find/replace `title: "Components/` with `title: "HeroUI Components/`
+   */
 };
 
 const _clean_third = (fin = false) => {
