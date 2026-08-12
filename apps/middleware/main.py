@@ -37,7 +37,7 @@ expense_schemas.ExpenseCreate.model_rebuild(_types_namespace=shared_namespace)
 expense_schemas.ExpenseResponse.model_rebuild(_types_namespace=shared_namespace)
 
 app = FastAPI(
-  title='Divi App v0.1.2',
+  title='Divi App v0.1.3',
   root_path='/api',
   openapi_url='/openapi.json',
 )
