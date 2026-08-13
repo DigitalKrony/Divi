@@ -1,4 +1,4 @@
-import { existsSync, cpSync } from 'node:fs';
+import { existsSync, cpSync, globSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { exec, spawn } from 'node:child_process';
 import Glaze from '@df/glaze';
@@ -62,6 +62,7 @@ const _copy_files = () => {
     cpSync(resolve(dest_dir, storybook_dir), local_dir, { recursive: true });
 
     console.log(Glaze.green('Copy complete.'));
+
     _clean_third(true);
 
     _update_titles();
@@ -71,9 +72,15 @@ const _copy_files = () => {
 };
 
 const _update_titles = () => {
-  /**
-   * Add Step to find/replace `title: "Components/` with `title: "HeroUI Components/`
-   */
+  console.log(Glaze.yellow(`Altering the Titles in the HeroUI Story files...`));
+
+  const _story_files = globSync(`${local_dir}/**/*.stories.*`);
+
+  for (const _f of _story_files) {
+    const _c = readFileSync(_f, 'utf8');
+    const _C = _c.replace(`title: "Components/`, `title: "HeroUI Components/`);
+    writeFileSync(_f, _C, 'utf8');
+  }
 };
 
 const _clean_third = (fin = false) => {
