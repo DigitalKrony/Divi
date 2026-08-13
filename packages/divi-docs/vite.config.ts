@@ -30,7 +30,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react(), tsconfigPaths(), tailwindcss()],
-
+    assetsInclude: ["./../../**/*.md"],
     define: {
       "process.env": {
         NODE_ENV: JSON.stringify(env.NODE_ENV),

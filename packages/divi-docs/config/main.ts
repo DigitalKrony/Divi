@@ -44,7 +44,10 @@ const config: StorybookConfig = {
   stories: getStories(),
   addons: [
     "@chromatic-com/storybook",
-    "@storybook/addon-docs",
+    {
+      name: "@storybook/addon-docs",
+      options: { transcludeMarkdown: true },
+    },
     "@storybook/addon-a11y",
     "@storybook/addon-vitest",
   ],
