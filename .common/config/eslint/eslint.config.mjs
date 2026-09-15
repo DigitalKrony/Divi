@@ -1,31 +1,41 @@
-/*!
- * Copyright (C) Design:Funedikly. All rights reserved.
- */
+import { defineConfig, globalIgnores } from 'eslint/config';
+import Linter from "eslint";
+import notice from 'eslint-plugin-notice';
+import tsParser from '@typescript-eslint/parser';
 
-import { defineConfig, globalIgnores } from "eslint/config";
-import notice from "eslint-plugin-notice";
-import tsParser from "@typescript-eslint/parser";
+if (Linter.RuleContext && !Linter.RuleContext.prototype.getFilename) {
+  Linter.RuleContext.prototype.getFilename = function () {
+    return this.filename ?? this.sourceCode?.getFilename();
+  };
+}
 
-export default defineConfig([globalIgnores(["_tpl/*"]), {
+export default defineConfig([
+  globalIgnores(['_tpl/*']),
+  {
     plugins: {
-        notice,
+      notice,
     },
-    files: ["**/*.ts", "**/*.js"],
+    files: ["**/*.js", "**/*.mjs", "**/*.cjs", "**/*.json", "**/*.ts", "**/*.jsx", "**/*.tsx"],
     languageOptions: {
-        globals: {},
-        parser: tsParser,
-        ecmaVersion: 5,
-        sourceType: "module",
+      globals: {},
+      parser: tsParser,
+      ecmaVersion: 5,
+      sourceType: 'module',
     },
     settings: {
-        react: {
-            version: "detect",
-        },
+      react: {
+        version: 'detect',
+      },
     },
     rules: {
-        "notice/notice": ["error", {
-            templateFile: "./copyright.js"
-        }],
-        'no-unused-vars': 'warn',
+      'no-unused-vars': 'warn',
+      'notice/notice': [
+        'error',
+        {
+          // templateFile: './.common/config/eslint/eslint.config.mjs',
+          template: `/*!\n * Copyright (C) Design:Funedikly. All rights reserved.\n */\n`,
+        },
+      ],
     },
-}]);
+  },
+]);

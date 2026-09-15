@@ -4,11 +4,12 @@
   "description": "The Divi app from MyFriends",
   "license": "MIT",
   "author": "Adam Sivins <adam.sivins@gmail.com>",
+  "type": "module",
   "engines": {
     "node": ">=25.0.0"
   },
   "scripts": {
-    "preinstall": "node ./scripts/setup-env/preinstall.js",
+    "preinstall": "node ./scripts/setup-env/preinstall.cjs",
     "postinstall": "node ./scripts/setup-env/postinstall.js",
     "npm:clean-up": "sudo rm -rf node_modules package-lock.json packages/**/node_modules apps/**/node_modules && npm cache clean --force",
     "build:docs:prod": "npm run build:docs -w @divi/docs",
@@ -18,9 +19,9 @@
     "start:web:dev": "npm run start:dev -w @divi/web",
     "start:web:prod": "node ./scripts/web-server",
     "docker:dev:build": "docker compose -f docker-compose.yml build",
-    "docker:dev:build:fresh": "docker compose -f docker-compose.yml  build --no-cache",
+    "docker:dev:build:fresh": "docker compose -f docker-compose.yml build --no-cache",
     "docker:dev:up": "docker compose -f docker-compose.yml  up -d",
-    "docker:dev:up:recreate": "docker compose -f docker-compose.yml  up -d --force-recreate",
+    "docker:dev:up:recreate": "docker compose -f docker-compose.yml up -d --force-recreate",
     "docker:dev": "npm-run-all -s docker:dev:build docker:dev:up",
     "docker:dev:clean": "npm-run-all -s docker:dev:build:fresh docker:dev:up:recreate"
   },
