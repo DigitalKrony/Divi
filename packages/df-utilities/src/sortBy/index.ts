@@ -2,11 +2,16 @@
  * Copyright (C) Design:Funedikly. All rights reserved.
  */
 
-export function SortBy<T>(objArray: T[], property: string, nullValue?: string | number) {
+export function SortBy<T>(
+  objArray: T[],
+  property: string,
+  nullValue?: string | number
+) {
   const jsonSort = (prop: string) => {
     return (a: T, b: T) => {
       // @ts-ignore-next-line
       const argA = a[prop] || nullValue;
+
       // @ts-ignore-next-line
       const argB = b[prop] || nullValue;
 

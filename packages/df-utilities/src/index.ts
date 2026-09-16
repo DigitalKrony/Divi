@@ -8,14 +8,13 @@ export { Copy } from "./copy";
 export { CreateUniqueId, CreateHexKey, RandomInt } from "./createHex";
 export { HasChildValue } from "./hasChildValue";
 export { SanitizeJSON } from "./sanitizeJSON";
-export { JSONMerge } from "./jsonMerge";
+export { mergeJSON } from "./mergeJson";
 export { Save } from "./save";
 export { SortBy } from "./sortBy";
 
 export { cleanObject } from "./cleanObject";
 export { isDark } from "./colorScheme";
 export { diviTheme } from "./diviTheme";
-export { mergeJSON } from "./mergeJson";
 export { iterateEnum } from "./iterateEnum";
 export { randomChar } from "./randomChar";
 export { createHexKey } from "./createHexKey";
@@ -32,7 +31,6 @@ export { pushIndex } from "./pushIndex";
 export { getNestedObject } from "./getNestedObject";
 export { hslToColor, strToVar } from "./heroui_vars";
 
-export * from "./commonData";
 export * from "./commonTypes";
 
 export * from "./AAMVA";

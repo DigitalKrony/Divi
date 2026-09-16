@@ -1,6 +1,8 @@
+node_modules/
+coverage/
+dist/
+heroui/
+
 .eslintrc.js
-node_modules
-coverage
-dist
 package-lock.json
 tsconfig.tsbuildinfo

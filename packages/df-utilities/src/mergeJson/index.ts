@@ -2,13 +2,22 @@
  * Copyright (C) Design:Funedikly. All rights reserved.
  */
 
-export const mergeJSON = (target: any, source: any) => {
-  for (const key in source) {
-    if (source[key] instanceof Object && key in target) {
-      target[key] = mergeJSON(target[key], source[key]);
-    } else {
-      target[key] = source[key];
+export const mergeJSON = (obj1: any, obj2: any) => {
+  for (const p in obj2) {
+    try {
+      if (obj2[p].constructor === Object) {
+        obj1[p] = mergeJSON(obj1[p], obj2[p]);
+      } else {
+        if (obj1[p] === obj2[p]) {
+          delete obj1[p];
+        } else {
+          obj1[p] = obj2[p];
+        }
+      }
+    } catch (e) {
+      obj1[p] = obj2[p];
     }
   }
-  return target;
+
+  return obj1;
 };
