@@ -1,3 +1,6 @@
+/*!
+ * Copyright (C) Design:Funedikly. All rights reserved.
+ */
 import type { IconProps } from './icon.types';
 
 export const DefaultUser = (props: IconProps) => {

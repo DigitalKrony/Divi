@@ -4,14 +4,18 @@
     "editor.defaultFormatter": "charliermarsh.ruff"
   },
   "cSpell.words": [
+    "autodocs",
     "CHOKIDAR",
     "containrrr",
     "digitalkrony",
     "divi",
+    "fluentui",
     "Funedikly",
     "Krony",
     "shoutrrr",
     "Sivins",
+    "subcomponents",
+    "transclude",
     "USEPOLLING",
     "uvicorn"
   ],

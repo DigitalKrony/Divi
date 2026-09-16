@@ -1,5 +1,5 @@
 extend:
-  - dir: ./src/components
+  - dir: ./src/Components/
     friendlyName: Add Unit Test file
     nameCase: pascal
     structure:
@@ -10,8 +10,9 @@ extend:
             suffix: .test
             extension: tsx
             content:
-              src: ./../../.common/templates/Component.test.tsx
-  - dir: ./src/components
+              src: ./../../.common/templates/tests/component.test.tsx
+
+  - dir: ./src/Components/
     friendlyName: Add Visual Test file
     nameCase: pascal
     structure:
@@ -22,32 +23,49 @@ extend:
             suffix: .spec
             extension: ts
             content:
-              src: ./../../.common/templates/Component.spec.ts
+              src: ./../../.common/templates/tests/component.spec.tsx
 
 create:
-  - dest: ./src/components/
-    friendlyName: FunctionComponent(FC)
+  - dest: ./src/Components/
+    friendlyName: Full Split - ForwardRef Component
     nameCase: pascal
     structure:
       - type: file
         name: index
         extension: ts
         content:
-          src: ./../../.common/templates/index.ts
+          src: ./../../.common/templates/forwardRef/index.component.ts
+
+      - type: file
+        extension: ts
+        content:
+          src: ./../../.common/templates/forwardRef/component.ts
+
+      - type: file
+        suffix: .types
+        extension: ts
+        content:
+          src: ./../../.common/templates/forwardRef/component.types.ts
+
       - type: file
         suffix: .styles
         extension: ts
+        prefix: use
         content:
-          src: ./../../.common/templates/FC/Component.styles.ts
-      - type: file
-        suffix: .types
-        extension: ts
-        content:
-          src: ./../../.common/templates/FC/Component.types.ts
+          src: ./../../.common/templates/forwardRef/component.use.styles.ts
+
       - type: file
         extension: tsx
+        prefix: use
         content:
-          src: ./../../.common/templates/FC/Component.base.tsx
+          src: ./../../.common/templates/forwardRef/component.use.ts
+
+      - type: file
+        extension: tsx
+        prefix: render
+        content:
+          src: ./../../.common/templates/forwardRef/component.render.tsx
+
       - type: folder
         name: stories
         content:
@@ -55,140 +73,32 @@ create:
             name: index
             extension: ts
             content:
-              src: ./../../.common/templates/index.stories.ts
+              src: ./../../.common/templates/stories/index.stories.ts
+
           - type: file
             suffix: .stories
             extension: tsx
             content:
-              src: ./../../.common/templates/Component.stories.tsx
-  - dest: ./src/components/
-    friendlyName: Simple Component | ForwardRefComponent w/ Tests w/o State & Context
-    nameCase: pascal
-    structure:
-      - type: file
-        prefix: render
-        extension: tsx
-        content:
-          src: ./../../.common/templates/SimpleComponent/Component.base.tsx
-      - type: file
-        name: index
-        extension: ts
-        content:
-          src: ./../../.common/templates/index.ts
-      - type: file
-        extension: tsx
-        content:
-          src: ./../../.common/templates/SimpleComponent/Component.tsx
-      - type: file
-        suffix: .types
-        extension: ts
-        content:
-          src: ./../../.common/templates/SimpleComponent/Component.types.ts
-      - type: file
-        prefix: use
-        extension: ts
-        content:
-          src: ./../../.common/templates/useComponent.ts
-      - type: file
-        prefix: use
-        suffix: Styles
-        extension: ts
-        content:
-          src: ./../../.common/templates/SimpleComponent/Component.styles.ts
+              src: ./../../.common/templates/stories/component.stories.tsx
+
+      
       - type: folder
         name: tests
         content:
           - type: file
-            suffix: .test
-            extension: tsx
-            content:
-              src: ./../../.common/templates/Component.test.tsx
-          - type: file
-            suffix: .spec
-            extension: ts
-            content:
-              src: ./../../.common/templates/Component.spec.ts
-      - type: folder
-        name: stories
-        content:
-          - type: file
             name: index
             extension: ts
             content:
-              src: ./../../.common/templates/index.stories.ts
-          - type: file
-            suffix: .stories
-            extension: tsx
-            content:
-              src: ./../../.common/templates/Component.stories.tsx
-  - dest: ./src/components/
-    friendlyName: Full Component | ForwardRefComponent w/ Tests, State, & Context
-    nameCase: pascal
-    structure:
-      - type: file
-        name: index
-        extension: ts
-        content:
-          src: ./../../.common/templates/index.ts
-      - type: file
-        extension: tsx
-        content:
-          src: ./../../.common/templates/FullComponent/Component.tsx
-      - type: file
-        prefix: use
-        suffix: ContextValues
-        extension: ts
-        content:
-          src: ./../../.common/templates/FullComponent/useComponentContextValues.ts
-      - type: file
-        suffix: Context
-        extension: ts
-        content:
-          src: ./../../.common/templates/FullComponent/ComponentContext.ts
-      - type: file
-        suffix: .types
-        extension: ts
-        content:
-          src: ./../../.common/templates/FullComponent/Component.types.ts
-      - type: file
-        prefix: render
-        extension: tsx
-        content:
-          src: ./../../.common/templates/FullComponent/renderComponent.tsx
-      - type: file
-        prefix: use
-        extension: ts
-        content:
-          src: ./../../.common/templates/useComponent.ts
-      - type: file
-        prefix: use
-        suffix: Styles
-        extension: ts
-        content:
-          src: ./../../.common/templates/FullComponent/useComponentStyles.ts
-      - type: folder
-        name: tests
-        content:
+              src: ./../../.common/templates/tests/index.tests.ts
+          
           - type: file
             suffix: .test
             extension: tsx
             content:
-              src: ./../../.common/templates/Component.test.tsx
+              src: ./../../.common/templates/tests/component.test.tsx
+              
           - type: file
             suffix: .spec
-            extension: ts
-            content:
-              src: ./../../.common/templates/Component.spec.ts
-      - type: folder
-        name: stories
-        content:
-          - type: file
-            name: index
-            extension: ts
-            content:
-              src: ./../../.common/templates/index.stories.ts
-          - type: file
-            suffix: .stories
             extension: tsx
             content:
-              src: ./../../.common/templates/Component.stories.tsx
+              src: ./../../.common/templates/tests/component.spec.tsx

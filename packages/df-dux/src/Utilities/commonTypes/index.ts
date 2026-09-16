@@ -2,6 +2,8 @@
  * Copyright (C) Design:Funedikly. All rights reserved.
  */
 
+/* eslint-disable no-unused-vars */
+
 export enum SizeEnum {
   SMALL = "sm",
   MEDIUM = "md",

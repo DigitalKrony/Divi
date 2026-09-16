@@ -3,9 +3,6 @@
  */
 
 export { Accordion, AccordionItem } from "@heroui/react";
-
-// Fw-Export of HeroUI Components
-
 export { Alert, AlertDialog } from "@heroui/react";
 export { Autocomplete } from "@heroui/react";
 export { Avatar } from "@heroui/react";

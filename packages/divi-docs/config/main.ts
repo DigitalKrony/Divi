@@ -5,11 +5,11 @@
 import path from "node:path";
 import fs from "node:fs";
 
-import type { StorybookConfig } from "@storybook/react-vite";
+import { type StorybookConfig } from "@storybook/react-vite";
 
 const getStories = () => {
   const _root = path.join(process.env.INIT_CWD ?? process.cwd());
-  const sBlob = `src/**/*@(stories.@(js|jsx|mjs|ts|tsx)|.mdx)`;
+  const sBlob = `src/**/*.(stories.@(js|jsx|mjs|cjs|ts|tsx)|mdx)`;
   const _stories = [];
 
   try {
@@ -21,10 +21,8 @@ const getStories = () => {
       const w = _package.workspaces[i];
       console.log(`workspace: `, w);
       const _sp = path.resolve(path.join(_root, w, sBlob));
-
-      console.log(`stroy path: `, _sp);
-
-      _stories.push(`${_sp.replaceAll("\\", "/")}`);
+      _sp && console.log(`stroy path: `, _sp);
+      _sp && _stories.push(`${_sp.replaceAll("\\", "/")}`);
     }
   } catch (error) {
     console.log(`Blob Error: `, error);
@@ -41,7 +39,6 @@ const config: StorybookConfig = {
   core: {
     builder: "@storybook/builder-vite",
   },
-  stories: getStories(),
   addons: [
     "@chromatic-com/storybook",
     {
@@ -49,15 +46,46 @@ const config: StorybookConfig = {
       options: { transcludeMarkdown: true },
     },
     "@storybook/addon-a11y",
-    "@storybook/addon-vitest",
+    "@storybook/addon-vitest"
   ],
-  typescript: {
-    reactDocgen: "react-docgen-typescript",
-    check: true,
-  },
+  stories: getStories(),
   docs: {
     defaultName: "Documentation",
   },
+  typescript: {
+    reactDocgen: "react-docgen-typescript",
+    check: true,
+    reactDocgenTypescriptOptions: {
+      compilerOptions: {
+          allowJs: false,
+          skipLibCheck: true,
+        },
+      shouldExtractLiteralValuesFromEnum: true,
+      shouldRemoveUndefinedFromOptional: true,
+      include: ['**/*.tsx', path.resolve(__dirname, '../../../{apps,packages}/*/src/**/*.@(tsx|ts)')],
+      propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
+    }
+  },
+  async viteFinal(config) {
+    if (config.optimizeDeps) {
+      config.optimizeDeps.entries = [
+        ...(config.optimizeDeps.entries || []),
+        "src/**/*.stories.@(js|jsx|ts|tsx)",
+      ];
+    }
+    
+    return {
+      ...config,
+      resolve: {
+        ...config.resolve,
+        alias: {
+          ...config.resolve?.alias,
+          '@': path.resolve(__dirname, '../src'),
+        },
+      },
+    };
+  },
+
 };
 
 export default config;

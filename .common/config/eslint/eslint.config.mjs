@@ -15,27 +15,37 @@ export default defineConfig([
     plugins: {
       notice,
     },
-    files: ["**/*.js", "**/*.mjs", "**/*.cjs", "**/*.json", "**/*.ts", "**/*.jsx", "**/*.tsx"],
-    languageOptions: {
-      globals: {},
-      parser: tsParser,
-      ecmaVersion: 5,
-      sourceType: 'module',
-    },
     settings: {
       react: {
         version: 'detect',
       },
     },
+    languageOptions: {
+      globals: {},
+      parser: tsParser,
+      ecmaVersion: 5,
+      sourceType: 'module',
+    },},
+  {
+    files: ["**/*.js", "**/*.mjs", "**/*.cjs", "**/*.jsonc", "**/*.ts", "**/*.jsx", "**/*.tsx", "**/*.scss"],
     rules: {
       'no-unused-vars': 'warn',
       'notice/notice': [
         'error',
         {
-          // templateFile: './.common/config/eslint/eslint.config.mjs',
           template: `/*!\n * Copyright (C) Design:Funedikly. All rights reserved.\n */\n`,
         },
       ],
+    },
+  }, {
+    files: ["**/*.html", "**/*.css"],
+    rules: {
+      'notice/notice': [
+        'error',
+        {
+          template: `<!-- Copyright (C) Design:Funedikly. All rights reserved. -->\n\n`,
+        }
+      ]
     },
   },
 ]);
