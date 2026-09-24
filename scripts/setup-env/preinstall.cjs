@@ -1,11 +1,12 @@
+const { join } = require('node:path')
 const { exec, spawn } = require('node:child_process');
 
-const Glaze = require('./../utilities/glaze');
-const pkgFile = require(`./../../package.json`);
+const Glaze = require(join(process.cwd(), 'scripts', 'utilities', 'glaze'));
+const pkgFile = require(join(process.cwd(), 'package.json'));
 
 const checkRemoteCmd = (pkg) => `npm view ${pkg} versions --json`;
 const checkBaseCmd = (pkg) => `npm global list ${pkg} --depth=0 --json`;
-const installBaseCmd = (pkgs) => `npm i -g ${pkgs.join(' ')}"`;
+const installBaseCmd = (pkgs) => `npm i -g ${pkgs.join(' ')} --color="always"`;
 const setVersionConstraint = (version) =>
   version === 'latest'
     ? 'latest'
@@ -101,19 +102,21 @@ const runInstall = () => {
   if (packageInstallationList.length > 0) {
     console.log(Glaze.green('--- Running install ---'));
 
-    console.log(packageInstallationList);
-
     const install = spawn(`${installBaseCmd(packageInstallationList)}`, [], {
       stdio: 'pipe',
       shell: true,
+      env: {
+        ...process.env,
+        FORCE_COLOR: '1'
+      }
     });
 
     install.stdout.on('data', (data) => {
-      console.log(`${data}`);
+      process.stdout.write(`${data}`);
     });
 
     install.stderr.on('data', (data) => {
-      console.error(`${data}`);
+      process.stdout.write(`${data}`);
     });
 
     install.on('error', (err) => {

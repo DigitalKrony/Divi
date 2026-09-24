@@ -9,7 +9,7 @@ import { type StorybookConfig } from "@storybook/react-vite";
 
 const getStories = () => {
   const _root = path.join(process.env.INIT_CWD ?? process.cwd());
-  const sBlob = `src/**/*.(stories.@(js|jsx|mjs|cjs|ts|tsx)|mdx)`;
+  const sBlob = `src/**/*.{mdx,stories.@(js|jsx|mjs|cjs|ts|tsx)}`;
   const _stories = [];
 
   try {
@@ -19,9 +19,7 @@ const getStories = () => {
 
     for (const i in _package.workspaces) {
       const w = _package.workspaces[i];
-      console.log(`workspace: `, w);
       const _sp = path.resolve(path.join(_root, w, sBlob));
-      _sp && console.log(`stroy path: `, _sp);
       _sp && _stories.push(`${_sp.replaceAll("\\", "/")}`);
     }
   } catch (error) {

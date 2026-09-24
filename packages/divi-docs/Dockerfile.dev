@@ -5,7 +5,7 @@ WORKDIR /app
 COPY --chown=$(whoami):$(whoami) package*.json ./
 COPY --chown=$(whoami):$(whoami) . .
 
-RUN npm i
+RUN npm i --include=dev --ignore-scripts
 
 WORKDIR /app/packages/divi-docs
 

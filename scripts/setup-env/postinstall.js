@@ -5,8 +5,8 @@ import Glaze from '@df/glaze';
 
 const git_url = `https://github.com/heroui-inc/heroui.git`;
 const dest_dir = `third-party/heroui`;
-const storybook_dir = `packages/react/src`;
-const local_dir = `packages/divi-docs/src/heroui`;
+const storybook_dir = `./packages/react/src`;
+const local_dir = `./packages/divi-docs/src/heroui`;
 
 const doc_package = `@divi/docs`;
 const heroui_meta_cmd = `npm list @heroui/react -w ${doc_package} --depth=0 --json`;
