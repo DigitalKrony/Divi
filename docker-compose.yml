@@ -61,7 +61,7 @@ services:
     user: '${UID:-1000}:${GID:-1000}'
     build:
       context: .
-      dockerfile: ./packages/divi-docs/Dockerfile.dev
+      dockerfile: ./apps/divi-docs/Dockerfile.dev
     working_dir: /app
     volumes:
       - ./:/app

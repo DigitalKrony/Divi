@@ -21,13 +21,14 @@ export const parameters: Parameters = {
     storySort: {
       order: [
         "Documentation",
+        "Controls",
         "DUX Controls",
         "HeroUI Controls",
+        "Divi Controls",
         "App Controls",
-        "Child Controls",
+        "Patterns",
         "Pages",
         "Layouts",
-        "Patterns",
       ],
     },
   },

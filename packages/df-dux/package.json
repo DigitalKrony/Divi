@@ -37,7 +37,7 @@
     "@fluentui/react-context-selector": "^9.2.9",
     "@fluentui/react-utilities": "^9.24.1",
     "@griffel/react": "^1.5.30",
-    "@heroui/react": "^3.2.2",
+    "@heroui/react": "^3.2.6",
     "@heroui/styles": "^3.2.2",
     "@tailwindcss/vite": "^4.1.11",
     "framer-motion": "^11.18.2",
