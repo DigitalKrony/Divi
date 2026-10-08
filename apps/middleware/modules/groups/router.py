@@ -74,3 +74,16 @@ def get_group_events(group_uuid: str, db: Session = Depends(get_db)):
     raise HTTPException(status_code=404, detail='Group not found')
 
   return global_schemas.success_response(data=group.events, code=200)
+
+@router.put(
+  '/{group_uuid}',
+  response_model=global_schemas.StandardResponse[group_schema.GroupResponse],
+  status_code=200,
+)
+def update_group(group_uuid: str, update_data: group_schema.GroupUpdate, db: Session = Depends(get_db)):
+  """Updates a group."""
+  db_obj = crud.update_group(db, group_uuid, update_data)
+  if not db_obj:
+    raise HTTPException(status_code=404, detail='Group not found')
+
+  return global_schemas.success_response(data=db_obj, code=200)

@@ -26,3 +26,10 @@ class EventResponse(EventBase):
   expenses: List['ExpenseBase'] = []  # noqa: F821
 
   model_config = ConfigDict(from_attributes=True)
+
+class EventUpdate(BaseModel):
+  title: Optional[str] = None
+  description: Optional[str] = None
+  location: Optional[str] = None
+  start_date: Optional[datetime] = None
+  end_date: Optional[datetime] = None
