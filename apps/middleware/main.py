@@ -1,5 +1,8 @@
+import asyncio
+
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
@@ -49,6 +52,22 @@ app.add_middleware(
   allow_methods=['*'],
   allow_headers=['*'],
 )
+
+
+async def event_generator():
+  """
+  Simulates checking the database for new entries.
+  In production, this could listen to a Postgres channel or message queue.
+  """
+  while True:
+    await asyncio.sleep(5)
+
+    yield 'data: {"message": "New entry added!", "timestamp": "xyz"}\n\n'
+
+
+@app.get('/api/stream')
+async def stream_new_entries():
+  return StreamingResponse(event_generator(), media_type='text/event-stream')
 
 
 @app.get('/health', tags=['Health'])

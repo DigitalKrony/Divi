@@ -1,12 +1,12 @@
-from typing import List
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from database import get_db
 import schemas as global_schemas
-from . import schemas as user_schema
-from ..groups import schemas as group_schema
+from database import get_db
+
 from ..events import schemas as event_schema
+from ..groups import schemas as group_schema
+from . import schemas as user_schema
 from . import service as crud
 
 router = APIRouter(prefix='/users', tags=['Users'])
@@ -47,7 +47,7 @@ def get_user(user_uuid: str, db: Session = Depends(get_db)):
 
 @router.get(
   '/{user_uuid}/groups',
-  response_model=global_schemas.StandardResponse[List[group_schema.GroupResponse]],
+  response_model=global_schemas.StandardResponse[list[group_schema.GroupResponse]],
   status_code=200,
 )
 def get_user_groups(user_uuid: str, db: Session = Depends(get_db)):
@@ -63,7 +63,7 @@ def get_user_groups(user_uuid: str, db: Session = Depends(get_db)):
 
 @router.get(
   '/{user_uuid}/events',
-  response_model=global_schemas.StandardResponse[List[event_schema.EventResponse]],
+  response_model=global_schemas.StandardResponse[list[event_schema.EventResponse]],
   status_code=200,
 )
 def get_user_events(user_uuid: str, db: Session = Depends(get_db)):
@@ -75,3 +75,19 @@ def get_user_events(user_uuid: str, db: Session = Depends(get_db)):
     raise HTTPException(status_code=404, detail='User not found')
 
   return global_schemas.success_response(data=user.events, code=200)
+
+
+@router.put(
+  '/{user_uuid}',
+  response_model=global_schemas.StandardResponse[user_schema.UserResponse],
+  status_code=200,
+)
+def update_user(
+  user_uuid: str, update_data: user_schema.UserUpdate, db: Session = Depends(get_db)
+):
+  """Updates a user."""
+  db_obj = crud.update_user(db, user_uuid, update_data)
+  if not db_obj:
+    raise HTTPException(status_code=404, detail='User not found')
+
+  return global_schemas.success_response(data=db_obj, code=200)
