@@ -62,3 +62,18 @@ def get_user_expenses_for_event(db: Session, db_event: Event, db_user: User):
     )
     .all()
   )
+
+def update_expense(db: Session, expense_uuid: str, update_data: schemas.ExpenseUpdate):
+  """Updates a expense by their UUID."""
+  db_obj = get_expense_by_uuid(db, expense_uuid)
+  if not db_obj:
+    return None
+  
+  update_dict = update_data.model_dump(exclude_unset=True)
+  
+  for key, value in update_dict.items():
+    setattr(db_obj, key, value)
+    
+  db.commit()
+  db.refresh(db_obj)
+  return db_obj

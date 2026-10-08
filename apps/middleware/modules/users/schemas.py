@@ -65,3 +65,12 @@ class PayAccountResponse(PayAccountBase):
   user_id: int
 
   model_config = ConfigDict(from_attributes=True)
+
+class UserUpdate(BaseModel):
+  display_name: Optional[str] = None
+  first_name: Optional[str] = None
+  last_name: Optional[str] = None
+  phone_number: Optional[str] = None
+  email_address: Optional[str] = None
+  address: Optional['AddressCreate'] = None
+  pay_accounts: Optional[List['PayAccountCreate']] = None

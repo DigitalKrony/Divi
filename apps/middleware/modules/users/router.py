@@ -75,3 +75,16 @@ def get_user_events(user_uuid: str, db: Session = Depends(get_db)):
     raise HTTPException(status_code=404, detail='User not found')
 
   return global_schemas.success_response(data=user.events, code=200)
+
+@router.put(
+  '/{user_uuid}',
+  response_model=global_schemas.StandardResponse[user_schema.UserResponse],
+  status_code=200,
+)
+def update_user(user_uuid: str, update_data: user_schema.UserUpdate, db: Session = Depends(get_db)):
+  """Updates a user."""
+  db_obj = crud.update_user(db, user_uuid, update_data)
+  if not db_obj:
+    raise HTTPException(status_code=404, detail='User not found')
+
+  return global_schemas.success_response(data=db_obj, code=200)

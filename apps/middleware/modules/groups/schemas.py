@@ -24,3 +24,10 @@ class GroupResponse(GroupBase):
   evens: List['EventBase'] = []  # noqa: F821
 
   model_config = ConfigDict(from_attributes=True)
+
+class GroupUpdate(BaseModel):
+  name: Optional[str] = None
+  description: Optional[str] = None
+  group_image: Optional[str] = None
+  group_header_image: Optional[str] = None
+  location: Optional[str] = None
