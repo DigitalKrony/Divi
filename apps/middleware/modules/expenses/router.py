@@ -21,7 +21,7 @@ router = APIRouter(prefix='/expenses', tags=['Expenses'])
 )
 def create_expense(
   expense: expense_schema.ExpenseCreate,
-  background_tasks: BackgroundTasks,  # 1. Add BackgroundTasks here
+  background_tasks: BackgroundTasks,
   db: Session = Depends(get_db),
 ):
   """

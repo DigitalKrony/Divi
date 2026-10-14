@@ -1,8 +1,7 @@
-import asyncio
+import json
 
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
@@ -13,6 +12,7 @@ from modules.expenses import router as expenses_router
 from modules.expenses import schemas as expense_schemas
 from modules.groups import router as groups_router
 from modules.groups import schemas as group_schemas
+from modules.stream import router as stream_router
 from modules.users import router as users_router
 from modules.users import schemas as user_schemas
 
@@ -54,22 +54,6 @@ app.add_middleware(
 )
 
 
-async def event_generator():
-  """
-  Simulates checking the database for new entries.
-  In production, this could listen to a Postgres channel or message queue.
-  """
-  while True:
-    await asyncio.sleep(5)
-
-    yield 'data: {"message": "New entry added!", "timestamp": "xyz"}\n\n'
-
-
-@app.get('/api/stream')
-async def stream_new_entries():
-  return StreamingResponse(event_generator(), media_type='text/event-stream')
-
-
 @app.get('/health', tags=['Health'])
 def health_check(db: Session = Depends(get_db)):
   """
@@ -84,6 +68,7 @@ def health_check(db: Session = Depends(get_db)):
     raise HTTPException(status_code=503, detail='Database connection failed')
 
 
+app.include_router(stream_router.router)
 app.include_router(users_router.router)
 app.include_router(groups_router.router)
 app.include_router(events_router.router)

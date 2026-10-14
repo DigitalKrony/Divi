@@ -23,6 +23,51 @@ def create_group(group: group_schema.GroupCreate, db: Session = Depends(get_db))
   return global_schemas.success_response(data=db_group, code=201)
 
 
+@router.get(
+  '/{group_uuid}',
+  response_model=global_schemas.StandardResponse[group_schema.GroupResponse],
+  status_code=200,
+)
+def get_event(group_uuid: str, db: Session = Depends(get_db)):
+  """Retrieves a specific group by its UUID."""
+  group = crud.get_group_by_uuid(db, group_uuid=group_uuid)
+
+  if not group:
+    raise HTTPException(status_code=404, detail='Group not found')
+
+  return global_schemas.success_response(data=group, code=200)
+
+
+@router.put(
+  '/{group_uuid}',
+  response_model=global_schemas.StandardResponse[group_schema.GroupResponse],
+  status_code=200,
+)
+def update_group(
+  group_uuid: str, update_data: group_schema.GroupUpdate, db: Session = Depends(get_db)
+):
+  """Updates a group."""
+  db_obj = crud.update_group(db, group_uuid, update_data)
+  if not db_obj:
+    raise HTTPException(status_code=404, detail='Group not found')
+
+  return global_schemas.success_response(data=db_obj, code=200)
+
+
+@router.get(
+  '/{group_uuid}/members',
+  response_model=global_schemas.StandardResponse[list[user_schema.UserResponse]],
+  status_code=200,
+)
+def get_group_members(group_uuid: str, db: Session = Depends(get_db)):
+  """Retrieves all users that are members of a specific group."""
+  group = crud.get_group_by_uuid(db, group_uuid=group_uuid)
+  if not group:
+    raise HTTPException(status_code=404, detail='Group not found')
+
+  return global_schemas.success_response(data=group.members, code=200)
+
+
 @router.post(
   '/{group_uuid}/members/{user_uuid}',
   response_model=global_schemas.StandardResponse[group_schema.GroupResponse],
@@ -48,20 +93,6 @@ def add_user_to_group(group_uuid: str, user_uuid: str, db: Session = Depends(get
 
 
 @router.get(
-  '/{group_uuid}/members',
-  response_model=global_schemas.StandardResponse[list[user_schema.UserResponse]],
-  status_code=200,
-)
-def get_group_members(group_uuid: str, db: Session = Depends(get_db)):
-  """Retrieves all users that are members of a specific group."""
-  group = crud.get_group_by_uuid(db, group_uuid=group_uuid)
-  if not group:
-    raise HTTPException(status_code=404, detail='Group not found')
-
-  return global_schemas.success_response(data=group.members, code=200)
-
-
-@router.get(
   '/{group_uuid}/events',
   response_model=global_schemas.StandardResponse[list[event_schema.EventResponse]],
   status_code=200,
@@ -73,19 +104,3 @@ def get_group_events(group_uuid: str, db: Session = Depends(get_db)):
     raise HTTPException(status_code=404, detail='Group not found')
 
   return global_schemas.success_response(data=group.events, code=200)
-
-
-@router.put(
-  '/{group_uuid}',
-  response_model=global_schemas.StandardResponse[group_schema.GroupResponse],
-  status_code=200,
-)
-def update_group(
-  group_uuid: str, update_data: group_schema.GroupUpdate, db: Session = Depends(get_db)
-):
-  """Updates a group."""
-  db_obj = crud.update_group(db, group_uuid, update_data)
-  if not db_obj:
-    raise HTTPException(status_code=404, detail='Group not found')
-
-  return global_schemas.success_response(data=db_obj, code=200)
