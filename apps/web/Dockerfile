@@ -11,7 +11,7 @@ COPY . .
 
 ENV NODE_ENV=production
 
-RUN npm run build:prod --workspace=@divi/web
+RUN npm run build:web:prod
 
 # WORKDIR /app/apps/web
 

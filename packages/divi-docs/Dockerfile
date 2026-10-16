@@ -1,8 +1,8 @@
 FROM node:26-bookworm-slim AS builder
 WORKDIR /app
 
-COPY package.json package-lock.json ./
-COPY . .
+COPY --chown=$(whoami):$(whoami) package.json package-lock.json ./
+COPY --chown=$(whoami):$(whoami) . .
 
 RUN npm i
 
