@@ -1,18 +1,21 @@
-FROM node:26-bookworm-slim
-
+FROM node:26-bookworm-slim AS builder
 WORKDIR /app
 
-COPY --chown=$(whoami):$(whoami) package*.json ./
+COPY --chown=$(whoami):$(whoami) package.json package-lock.json ./
 COPY --chown=$(whoami):$(whoami) . .
 
-RUN npm i --include=dev --ignore-scripts
+RUN npm i
 
-COPY . .
+RUN npm run build:docs:prod
 
-ENV NODE_ENV=production
+FROM node:26-bookworm-slim AS runner
+WORKDIR /app
 
-RUN npm run build:docs --workspace=@divi/docs
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/package-lock.json ./package-lock.json
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/packages/divi-docs ./packages/divi-docs
 
-# WORKDIR /app/packages/divi-docs
+EXPOSE 5175
 
-EXPOSE 3001
+CMD ["npm", "run", "start:docs:prod"]

@@ -1,6 +1,16 @@
 {
-  "name": "@df/setup-env",
+  "name": "@cai/setup-env",
   "version": "0.1.0",
-  "type": "module",
-  "private": true
+  "scripts": {
+    "start": "node ./"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "globalDependencies": {
+    "create-react-app": "latest",
+    "component_scaffold": "latest",
+    "typescript": "latest",
+    "eslint": "latest",
+    "@typescript-eslint/parser": "latest"
+  }
 }

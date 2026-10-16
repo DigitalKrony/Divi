@@ -21,14 +21,13 @@ export const parameters: Parameters = {
     storySort: {
       order: [
         "Documentation",
-        "Controls",
         "DUX Controls",
         "HeroUI Controls",
-        "Divi Controls",
         "App Controls",
-        "Patterns",
+        "Child Controls",
         "Pages",
         "Layouts",
+        "Patterns",
       ],
     },
   },
@@ -56,7 +55,7 @@ export const parameters: Parameters = {
         <Description />
         <Primary />
         <Controls />
-        <Stories />
+        {/* <Stories /> */}
       </>
     ),
   },
@@ -68,7 +67,7 @@ export const decorators: Decorator[] = [
 
     return (
       <StoryWrapper>
-        <LoadedStory {...options} />
+        <LoadedStory />
       </StoryWrapper>
     );
   },

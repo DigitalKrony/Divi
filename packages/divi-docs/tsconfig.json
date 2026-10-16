@@ -1,0 +1,19 @@
+{
+  "baseDir": "./src",
+  "extends": "./../../.common/config/typescript/tsconfig.app.json",
+  "compilerOptions": {
+    "outDir": "./lib",
+    "baseUrl": "src/",
+    "composite": true,
+    "declarationMap": true,
+    "paths": {
+      "@Shell": ["./Shell"],
+      "@Components": ["./Components"],
+      "@Components/*": ["./Components/*"],
+      "@Icons": ["./Icons"],
+      "@Icons/*": ["./Icons/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist/", "lib/"],
+  "include": ["./src/**/*", "./.storybook/*", "./vite.config.ts", "./global.d.ts"]
+}

@@ -4,28 +4,17 @@
     "editor.defaultFormatter": "charliermarsh.ruff"
   },
   "cSpell.words": [
-    "autodocs",
     "CHOKIDAR",
     "containrrr",
     "digitalkrony",
     "divi",
-    "fluentui",
     "Funedikly",
     "Krony",
     "shoutrrr",
     "Sivins",
-    "subcomponents",
-    "transclude",
     "USEPOLLING",
     "uvicorn"
   ],
   "eslint.workingDirectories": [{ "mode": "auto" }],
-  "editor.tabSize": 2,
-  "editor.formatOnSave": true,
-  "editor.formatOnType": false,
-  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
-  },
-  "notebook.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.tabSize": 2
 }

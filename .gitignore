@@ -47,7 +47,6 @@ bin/
 obj/
 storybook-static/
 dist/
-**/third-party
 
 # Optional eslint cache
 .eslintcache

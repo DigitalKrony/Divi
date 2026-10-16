@@ -1,5 +1,3 @@
-import json
-
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
@@ -12,7 +10,6 @@ from modules.expenses import router as expenses_router
 from modules.expenses import schemas as expense_schemas
 from modules.groups import router as groups_router
 from modules.groups import schemas as group_schemas
-from modules.stream import router as stream_router
 from modules.users import router as users_router
 from modules.users import schemas as user_schemas
 
@@ -40,7 +37,7 @@ expense_schemas.ExpenseCreate.model_rebuild(_types_namespace=shared_namespace)
 expense_schemas.ExpenseResponse.model_rebuild(_types_namespace=shared_namespace)
 
 app = FastAPI(
-  title='Divi App v0.1.3',
+  title='Divi App v0.1.2',
   root_path='/api',
   openapi_url='/openapi.json',
 )
@@ -68,7 +65,6 @@ def health_check(db: Session = Depends(get_db)):
     raise HTTPException(status_code=503, detail='Database connection failed')
 
 
-app.include_router(stream_router.router)
 app.include_router(users_router.router)
 app.include_router(groups_router.router)
 app.include_router(events_router.router)

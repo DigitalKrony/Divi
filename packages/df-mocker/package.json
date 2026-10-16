@@ -5,7 +5,7 @@
   "main": "./lib",
   "author": "Adam Sivins<adam.sivins@gmail.com>",
   "license": "MIT",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "build": "tsc",
     "build:db": "node ./lib/builder",

@@ -5,10 +5,9 @@
 /** @type {import('vite').UserConfig} */
 /** <reference types="vitest" /> */
 
-import react from "@vitejs/plugin-react";
 import { loadEnv, searchForWorkspaceRoot } from "vite";
 import { defineConfig } from "vitest/config";
-import { VitePWA } from "vite-plugin-pwa";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
@@ -17,7 +16,7 @@ export default defineConfig(({ mode }) => {
     `${env.USERNAME} is starting RDG APP v${env.npm_package_version} Server in ${env.NODE_ENV} environment`
   );
   return {
-    plugins: [react(), VitePWA({ registerType: "autoUpdate" })],
+    plugins: [react()],
     server: {
       host: true,
       port: 5174,

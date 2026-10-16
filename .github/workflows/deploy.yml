@@ -125,7 +125,7 @@ jobs:
             docker compose -f docker-compose.prod.yml restart nginx
 
   # ==========================================
-  # WEB APP RELEASE
+  # WEB RELEASE
   # ==========================================
   web-version-bump:
     name: Check Web Version Bump

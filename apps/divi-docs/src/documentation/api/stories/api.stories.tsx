@@ -1,11 +1,11 @@
 /*!
- * Copyright (C) Design: Funedikly. All rights reserved.
+ * Copyright (C) State of Michigan. All rights reserved.
  */
 
 /** @jsxRuntime automatic */
 import type { Meta, StoryFn } from '@storybook/react';
 
-import { API } from '..';
+import { API } from './../';
 
 export default {
   title: 'Documentation/API',

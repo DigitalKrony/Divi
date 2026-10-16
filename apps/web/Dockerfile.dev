@@ -3,9 +3,9 @@ FROM node:26-bookworm-slim
 WORKDIR /app
 
 COPY --chown=$(whoami):$(whoami) package*.json ./
-COPY --chown=$(whoami):$(whoami) apps/web/package*.json ./apps/web/ 
+COPY --chown=$(whoami):$(whoami) . .
 
-RUN npm i --include=dev --ignore-scripts
+RUN npm i
 
 WORKDIR /app/apps/web
 

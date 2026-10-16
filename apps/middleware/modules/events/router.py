@@ -1,13 +1,14 @@
+from typing import List
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-import schemas as global_schemas
 from database import get_db
-
-from ..groups import schemas as group_schema
-from ..users import schemas as user_schema
+import schemas as global_schemas
 from . import schemas as event_schema
+from ..groups import schemas as group_schema  # noqa: F401
+from ..users import schemas as user_schema  # noqa: F401
 from . import service as crud
+
 
 router = APIRouter(prefix='/events', tags=['Events'])
 
@@ -38,22 +39,6 @@ def get_event(event_uuid: str, db: Session = Depends(get_db)):
   return global_schemas.success_response(data=event, code=200)
 
 
-@router.put(
-  '/{event_uuid}',
-  response_model=global_schemas.StandardResponse[event_schema.EventResponse],
-  status_code=200,
-)
-def update_event(
-  event_uuid: str, update_data: event_schema.EventUpdate, db: Session = Depends(get_db)
-):
-  """Updates a event."""
-  db_obj = crud.update_event(db, event_uuid, update_data)
-  if not db_obj:
-    raise HTTPException(status_code=404, detail='Event not found')
-
-  return global_schemas.success_response(data=db_obj, code=200)
-
-
 @router.post(
   '/{event_uuid}/users/{user_uuid}',
   response_model=global_schemas.StandardResponse[event_schema.EventResponse],
@@ -78,7 +63,7 @@ def add_user_to_event(event_uuid: str, user_uuid: str, db: Session = Depends(get
 
 @router.get(
   '/{event_uuid}/users',
-  response_model=global_schemas.StandardResponse[list[user_schema.UserResponse]],
+  response_model=global_schemas.StandardResponse[List[user_schema.UserResponse]],
   status_code=200,
 )
 def get_event_users(event_uuid: str, db: Session = Depends(get_db)):
@@ -115,7 +100,7 @@ def add_group_to_event(event_uuid: str, group_uuid: str, db: Session = Depends(g
 
 @router.get(
   '/{event_uuid}/groups',
-  response_model=global_schemas.StandardResponse[list[group_schema.GroupResponse]],
+  response_model=global_schemas.StandardResponse[List[group_schema.GroupResponse]],
   status_code=200,
 )
 def get_event_groups(event_uuid: str, db: Session = Depends(get_db)):

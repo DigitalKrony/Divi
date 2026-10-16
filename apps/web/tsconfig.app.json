@@ -4,6 +4,7 @@
     "jsx": "react-jsx",
     "types": ["vite/client", "vitest/globals"],
     "paths": {
+      "*": ["../../.common/config/typescript/*"],
       "@Components": ["./src/Components"],
       "@Components/*": ["./src/Components/*"],
       "@Icons": ["./src/Icons"],

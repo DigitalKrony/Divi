@@ -64,11 +64,6 @@
     width: 100%;
   }
 
-  .p_fl > p {
-    display: flex;
-    gap: 8px;
-  }
-
   .sb-show-main {
     min-height: 100%;
   }
