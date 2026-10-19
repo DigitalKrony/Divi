@@ -74,6 +74,6 @@ if __name__ == '__main__':
   swagger_json = app.openapi()
 
   with open('./../../packages/divi-docs/src/swagger.json', 'w') as f:
-    json.dump(swagger_json, f, indent=4)
+    json.dump(swagger_json, f, indent=2)
 
   print('Successfully generated swagger.json file!')

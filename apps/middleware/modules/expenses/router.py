@@ -38,6 +38,24 @@ def create_expense(
   return global_schemas.success_response(data=db_expense, code=201)
 
 
+@router.put(
+  '/{expense_uuid}',
+  response_model=global_schemas.StandardResponse[expense_schema.ExpenseResponse],
+  status_code=200,
+)
+def update_expense(
+  expense_uuid: str,
+  update_data: expense_schema.ExpenseUpdate,
+  db: Session = Depends(get_db),
+):
+  """Updates a expense."""
+  db_obj = crud.update_expense(db, expense_uuid, update_data)
+  if not db_obj:
+    raise HTTPException(status_code=404, detail='Expense not found')
+
+  return global_schemas.success_response(data=db_obj, code=200)
+
+
 @router.get(
   '/event/{event_uuid}',
   response_model=global_schemas.StandardResponse[List[expense_schemas.ExpenseResponse]],
@@ -72,3 +90,4 @@ def get_user_event_expenses(
 
   expenses = crud.get_user_expenses_for_event(db, db_event=db_event, db_user=db_user)
   return global_schemas.success_response(data=expenses, code=200)
+
