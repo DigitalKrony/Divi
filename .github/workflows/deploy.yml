@@ -213,8 +213,8 @@ jobs:
       - name: Compare Docs package.json versions
         id: version_check
         run: |
-          _prev=$(git show HEAD~1:packages/divi-docs/package.json | jq -r .version || echo "0.0.0")
-          _cur=$(jq -r .version packages/divi-docs/package.json)
+          _prev=$(git show HEAD~1:apps/divi-docs/package.json | jq -r .version || echo "0.0.0")
+          _cur=$(jq -r .version apps/divi-docs/package.json)
 
           if [ "$_prev" == "$_cur" ]; then
             echo "Docs Version ($_cur) hasn't changed. Skipping Docs deployment."
@@ -247,7 +247,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./packages/divi-docs/Dockerfile
+          file: ./apps/divi-docs/Dockerfile
           push: true
           tags: ghcr.io/digitalkrony/divi-docs:latest
 

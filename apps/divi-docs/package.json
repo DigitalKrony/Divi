@@ -5,9 +5,9 @@
   "main": "./dist",
   "type": "module",
   "scripts": {
-    "build:docs": "STORYBOOK_CACHE_DIR=./.tmp/docs-cache storybook build -c ./config -o ./dist",
-    "start:prod": "STORYBOOK_CACHE_DIR=./.tmp/docs-cache node server.js -c ./config",
-    "start:dev": "STORYBOOK_CACHE_DIR=./.tmp/docs-cache storybook dev -p 5175 -c ./config",
+    "build:docs": "STORYBOOK_CACHE_DIR=./.tmp/build-cache storybook build -c ./config -o ./dist",
+    "start:prod": "node server.js",
+    "start:dev": "STORYBOOK_CACHE_DIR=./.tmp/dev-cache storybook dev -p 5175 -c ./config",
     "lint": "eslint ."
   },
   "dependencies": {

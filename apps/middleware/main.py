@@ -73,7 +73,7 @@ app.include_router(expenses_router.router)
 if __name__ == '__main__':
   swagger_json = app.openapi()
 
-  with open('./../../packages/divi-docs/src/swagger.json', 'w') as f:
+  with open('./../../apps/divi-docs/src/swagger.json', 'w') as f:
     json.dump(swagger_json, f, indent=4)
 
   print('Successfully generated swagger.json file!')
