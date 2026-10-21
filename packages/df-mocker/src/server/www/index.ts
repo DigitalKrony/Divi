@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+/*!
+ * Copyright (C) Design:Funedikly. All rights reserved.
+ */
 
 /**
  * Module dependencies.

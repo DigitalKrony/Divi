@@ -1,3 +1,6 @@
+/*!
+ * Copyright (C) Design:Funedikly. All rights reserved.
+ */
 export const defaults = {
   users: {
     schema: {
