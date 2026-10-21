@@ -1,0 +1,12 @@
+{
+  "name": "@df/web-server",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "bin": {
+    "web-server": "./index.js"
+  },
+  "scripts": {
+    "start": "node ./index.js"
+  }
+}

@@ -28,10 +28,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "erasableSyntaxOnly": false,
-    "noUncheckedSideEffectImports": true,
-
-    /* Path Aliases (Add your custom aliases here) */
-    "baseUrl": "./",
-    
+    "noUncheckedSideEffectImports": true
   }
 }

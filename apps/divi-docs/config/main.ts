@@ -1,0 +1,89 @@
+/*!
+ * Copyright (C) Design:Funedikly. All rights reserved.
+ */
+
+import path from "node:path";
+import fs from "node:fs";
+
+import { type StorybookConfig } from "@storybook/react-vite";
+
+const getStories = () => {
+  const _root = path.join(process.env.INIT_CWD ?? process.cwd());
+  const sBlob = `src/**/*.{mdx,stories.@(js|jsx|mjs|cjs|ts|tsx)}`;
+  const _stories = [];
+
+  try {
+    let _package = JSON.parse(
+      fs.readFileSync(path.resolve(_root, "package.json"), "utf8")
+    );
+
+    for (const i in _package.workspaces) {
+      const w = _package.workspaces[i];
+      const _sp = path.resolve(path.join(_root, w, sBlob));
+      _sp && _stories.push(`${_sp.replaceAll("\\", "/")}`);
+    }
+  } catch (error) {
+    console.log(`Blob Error: `, error);
+  }
+
+  return _stories;
+};
+
+const config: StorybookConfig = {
+  framework: {
+    name: "@storybook/react-vite",
+    options: {},
+  },
+  core: {
+    builder: "@storybook/builder-vite",
+  },
+  addons: [
+    "@chromatic-com/storybook",
+    {
+      name: "@storybook/addon-docs",
+      options: { transcludeMarkdown: true },
+    },
+    "@storybook/addon-a11y",
+    "@storybook/addon-vitest"
+  ],
+  stories: getStories(),
+  docs: {
+    defaultName: "Documentation",
+  },
+  typescript: {
+    reactDocgen: "react-docgen-typescript",
+    check: true,
+    reactDocgenTypescriptOptions: {
+      compilerOptions: {
+          allowJs: false,
+          skipLibCheck: true,
+        },
+      shouldExtractLiteralValuesFromEnum: true,
+      shouldRemoveUndefinedFromOptional: true,
+      include: ['**/*.tsx', path.resolve(__dirname, '../../../{apps,packages}/*/src/**/*.@(tsx|ts)')],
+      propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
+    }
+  },
+  async viteFinal(config) {
+    if (config.optimizeDeps) {
+      config.optimizeDeps.entries = [
+        ...(config.optimizeDeps.entries || []),
+        "src/**/*.stories.@(js|jsx|ts|tsx)",
+      ];
+    }
+    
+    return {
+      ...config,
+      resolve: {
+        ...config.resolve,
+        alias: {
+          ...config.resolve?.alias,
+          '@': path.resolve(__dirname, '../src'),
+        },
+      },
+    };
+  },
+
+};
+
+export default config;

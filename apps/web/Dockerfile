@@ -1,4 +1,4 @@
-FROM node:26-bookworm-slim
+FROM node:26-bookworm-slim AS builder
 
 WORKDIR /app
 
@@ -11,7 +11,7 @@ COPY . .
 
 ENV NODE_ENV=production
 
-RUN npm run build:prod --workspace=@divi/web
+RUN npm run build:web:prod
 
 # WORKDIR /app/apps/web
 
