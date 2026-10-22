@@ -2,24 +2,25 @@
  * Copyright (C) Design:Funedikly. All rights reserved.
  */
 
-import path from "node:path";
-import fs from "node:fs";
+import { join, resolve } from "node:path";
+import { readFileSync, globSync } from "node:fs";
+import { cwd } from "node:process";
 
 import { type StorybookConfig } from "@storybook/react-vite";
 
 const getStories = () => {
-  const _root = path.join(process.env.INIT_CWD ?? process.cwd());
+  const _root = join(process.env.INIT_CWD ?? cwd());
   const sBlob = `src/**/*.{mdx,stories.@(js|jsx|mjs|cjs|ts|tsx)}`;
   const _stories = [];
 
   try {
     let _package = JSON.parse(
-      fs.readFileSync(path.resolve(_root, "package.json"), "utf8")
+      readFileSync(resolve(_root, "package.json"), "utf8")
     );
 
     for (const i in _package.workspaces) {
       const w = _package.workspaces[i];
-      const _sp = path.resolve(path.join(_root, w, sBlob));
+      const _sp = resolve(join(_root, w, sBlob));
       _sp && _stories.push(`${_sp.replaceAll("\\", "/")}`);
     }
   } catch (error) {
@@ -60,7 +61,7 @@ const config: StorybookConfig = {
         },
       shouldExtractLiteralValuesFromEnum: true,
       shouldRemoveUndefinedFromOptional: true,
-      include: ['**/*.tsx', path.resolve(__dirname, '../../../{apps,packages}/*/src/**/*.@(tsx|ts)')],
+      include: ['**/*.tsx', resolve(__dirname, '../../../{apps,packages}/*/src/**/*.@(tsx|ts)')],
       propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
     }
   },
@@ -78,7 +79,7 @@ const config: StorybookConfig = {
         ...config.resolve,
         alias: {
           ...config.resolve?.alias,
-          '@': path.resolve(__dirname, '../src'),
+          '@': resolve(__dirname, '../src'),
         },
       },
     };

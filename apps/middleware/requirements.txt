@@ -9,3 +9,4 @@ pytest
 httpx2
 alembic
 python-dateutil
+pydantic

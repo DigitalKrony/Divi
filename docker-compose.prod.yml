@@ -2,7 +2,7 @@ name: divi-dashboard-prod
 
 services:
   db:
-    container_name: divi_database
+    container_name: divi_postgres
     image: postgres:15
     restart: unless-stopped
     environment:
@@ -34,9 +34,9 @@ services:
 
   web:
     container_name: divi_web
-    # image: ghcr.io/digitalkrony/divi-web:latest
+    # image: ghcr.io/DigitalKrony/divi-web:latest
     restart: unless-stopped
-    working_dir: /app
+    working_dir: /app/apps/web
     build:
       context: .
       dockerfile: ./apps/web/Dockerfile
@@ -53,10 +53,10 @@ services:
     container_name: divi_docs
     # image: ghcr.io/digitalkrony/divi-docs:latest
     restart: unless-stopped
-    working_dir: /app
+    working_dir: /app/packages/divi-docs
     build:
       context: .
-      dockerfile: ./apps/divi-docs/Dockerfile
+      dockerfile: ./packages/divi-docs/Dockerfile
     depends_on:
       - web
     environment:

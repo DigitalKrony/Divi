@@ -1,7 +1,7 @@
 const { join } = require('node:path')
 const { exec, spawn } = require('node:child_process');
 
-const Glaze = require(join(process.cwd(), 'scripts', 'utilities', 'glaze'));
+const Glaze = require(join(process.cwd(), 'packages', 'glaze'));
 const pkgFile = require(join(process.cwd(), 'package.json'));
 
 const checkRemoteCmd = (pkg) => `npm view ${pkg} versions --json`;

@@ -4,7 +4,7 @@ from typing import List
 
 from database import get_db
 import schemas as global_schemas
-from . import schemas as expense_schemas
+from . import schemas as expense_schema
 from ..groups import schemas as group_schema  # noqa: F401
 from ..users import schemas as user_schema  # noqa: F401
 from ..events import schemas as event_schema  # noqa: F401
@@ -15,11 +15,11 @@ router = APIRouter(prefix='/expenses', tags=['Expenses'])
 
 @router.post(
   '/',
-  response_model=global_schemas.StandardResponse[expense_schemas.ExpenseResponse],
+  response_model=global_schemas.StandardResponse[expense_schema.ExpenseResponse],
   status_code=201,
 )
 def create_expense(
-  expense: expense_schemas.ExpenseCreate, db: Session = Depends(get_db)
+  expense: expense_schema.ExpenseCreate, db: Session = Depends(get_db)
 ):
   """Creates a new expense and links the owner, event, and participants."""
 
@@ -58,7 +58,7 @@ def update_expense(
 
 @router.get(
   '/event/{event_uuid}',
-  response_model=global_schemas.StandardResponse[List[expense_schemas.ExpenseResponse]],
+  response_model=global_schemas.StandardResponse[List[expense_schema.ExpenseResponse]],
   status_code=200,
 )
 def get_event_expenses(event_uuid: str, db: Session = Depends(get_db)):

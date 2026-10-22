@@ -1,6 +1,6 @@
 {
   "baseDir": "./src",
-  "extends": "./../../../.common/config/typescript/tsconfig.node.json",
+  "extends": "./../../.common/config/typescript/tsconfig.node.json",
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",

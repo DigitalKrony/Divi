@@ -23,7 +23,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
 
   console.log(
-    `${env.USERNAME} is starting RDG APP v${env.npm_package_version} Server in ${env.NODE_ENV} environment`
+    `${env.USERNAME} is starting Divi Design Documentation Storybook v${env.npm_package_version} Server in ${env.NODE_ENV} environment`
   );
 
   return {

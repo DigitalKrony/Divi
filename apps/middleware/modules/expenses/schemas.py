@@ -16,6 +16,13 @@ class ExpenseCreate(ExpenseBase):
   participant_ids: List[str] = []
 
 
+class ExpenseUpdate(ExpenseBase):
+  title: str
+  description: str
+  date: Optional[datetime] = None
+  amount: float
+  participant_ids: List[str] = []
+
 class ExpenseResponse(ExpenseBase):
   id: int
   uuid: str

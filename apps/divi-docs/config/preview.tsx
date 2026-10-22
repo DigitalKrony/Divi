@@ -67,7 +67,7 @@ export const decorators: Decorator[] = [
 
     return (
       <StoryWrapper>
-        <LoadedStory />
+        <LoadedStory {...options} />
       </StoryWrapper>
     );
   },

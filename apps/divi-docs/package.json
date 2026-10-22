@@ -8,7 +8,8 @@
     "build:docs": "STORYBOOK_CACHE_DIR=./.tmp/build-cache storybook build -c ./config -o ./dist",
     "start:prod": "node server.js",
     "start:dev": "STORYBOOK_CACHE_DIR=./.tmp/dev-cache storybook dev -p 5175 -c ./config",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "node ./config/_test.ts"
   },
   "dependencies": {
     "@carbon/icons-react": "^11.70.0",
@@ -16,6 +17,8 @@
     "@fluentui/react-utilities": "^9.24.1",
     "@griffel/react": "^1.5.30",
     "@iconify/react": "^6.0.2",
+    "@react-aria/ssr": "^3.10.1",
+    "@react-aria/utils": "^3.34.1",
     "@react-stately/data": "^3.16.1",
     "@tailwindcss/vite": "^4.1.11",
     "framer-motion": "^11.18.2",

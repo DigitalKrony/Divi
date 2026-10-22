@@ -1,1 +1,1 @@
-# Utilities for the LAMB repository
+# Utilities for the Divi repository

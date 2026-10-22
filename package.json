@@ -8,15 +8,16 @@
     "node": ">=25.0.0"
   },
   "scripts": {
-    "preinstall": "node ./scripts/setup-env/index.js",
-    "postinstall": "echo \"Nothing to see here\"",
+    "preinstall": "node ./scripts/setup-env/preinstall.cjs",
+    "postinstall": "node ./scripts/setup-env/postinstall.js",
     "npm:clean-up": "sudo rm -rf node_modules package-lock.json packages/**/node_modules apps/**/node_modules && npm cache clean --force",
     "build:docs:prod": "npm run build:docs -w @divi/docs",
     "build:web:prod": "npm run build:prod -w @divi/web",
     "start:docs:dev": "npm run start:dev -w @divi/docs",
-    "start:docs:prod": "node ./scripts/docs-server -w @divi/docs",
+    "start:docs:test": "npm run test -w @divi/docs",
+    "start:docs:prod": "node ./packages/web-server -w @divi/docs",
     "start:web:dev": "npm run start:dev -w @divi/web",
-    "start:web:prod": "node ./scripts/web-server",
+    "start:web:prod": "node ./packages/web-server",
 
     "docker:dev:build": "docker compose -f docker-compose.yml build",
     "docker:dev:build:fresh": "docker compose -f docker-compose.yml build --no-cache",
@@ -34,9 +35,15 @@
     "docker:prod:clean": "npm-run-all -s docker:prod:build:fresh docker:prod:up:recreate"
   },
   "workspaces": [
-    "./apps/*",
-    "./packages/*",
-    "./scripts/*"
+    "./apps/middleware",
+    "./apps/web",
+    "./apps/divi-docs",
+    "./packages/glaze",
+    "./packages/df-dux",
+    "./packages/df-mocker",
+    "./packages/df-utilities",
+    "./packages/web-server",
+    "./scripts/setup-env"
   ],
   "allowScripts": {
     "esbuild": true,
