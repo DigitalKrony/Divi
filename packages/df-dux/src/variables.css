@@ -1,8 +1,7 @@
 @layer base {
   /* HeroUI Default Theme */
-  :root {
-    color-scheme: light;
 
+  :root {
     /* == Common Variables == */
 
     /* Primitive Colors (Do not change between light and dark) */
@@ -29,8 +28,13 @@
     /* Radius */
     --radius: 0.5rem;
     --field-radius: calc(var(--radius) * 1.5);
+  }
 
-    /* == Light Theme Variables == */
+  /* == Light Theme Variables == */
+
+  .light,
+  [data-theme='light'] {
+    color-scheme: light;
 
     /* Base Colors */
     --background: oklch(0.9702 0 0);
@@ -69,6 +73,9 @@
     --danger: oklch(0.6532 0.2328 25.74);
     --danger-foreground: var(--snow);
 
+    --info: oklch(0.6 0.15 210);
+    --info-foreground: oklch(0.98 0 0);
+
     /* Component Colors */
     --segment: var(--white);
     --segment-foreground: var(--eclipse);
@@ -97,10 +104,10 @@
     --tooltip-close-delay: 500ms;
   }
 
+  /* == Dark Theme Variables == */
   .dark,
   [data-theme='dark'] {
     color-scheme: dark;
-    /* == Dark Theme Variables == */
 
     /* Base Colors */
     --background: oklch(12% 0.005 285.823);
@@ -131,6 +138,9 @@
     --danger: oklch(0.594 0.1967 24.63);
     --danger-foreground: var(--snow);
 
+    --info: oklch(0.7 0.12 210);
+    --info-foreground: oklch(0.15 0 0);
+
     /* Component Colors */
     --segment: oklch(0.3964 0.01 285.93);
     --segment-foreground: var(--foreground);
@@ -148,20 +158,6 @@
     --surface-shadow: 0 0 0 0 transparent inset; /* No shadow on dark mode */
     --overlay-shadow: 0 0 0 0 transparent inset; /* No shadow on dark mode */
     --field-shadow: 0 0 0 0 transparent inset; /* Transparent shadow to allow ring utilities to work */
-  }
-}
-
-@layer base {
-  :root,
-  [data-theme='light'] {
-    --info: oklch(0.6 0.15 210);
-    --info-foreground: oklch(0.98 0 0);
-  }
-
-  .dark,
-  [data-theme='dark'] {
-    --info: oklch(0.7 0.12 210);
-    --info-foreground: oklch(0.15 0 0);
   }
 
   /* Make the color available to Tailwind */

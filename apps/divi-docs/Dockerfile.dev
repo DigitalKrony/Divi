@@ -7,6 +7,4 @@ COPY --chown=$(whoami):$(whoami) . .
 
 RUN npm i
 
-WORKDIR /app/apps/divi-docs
-
 EXPOSE 5175

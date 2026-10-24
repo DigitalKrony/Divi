@@ -45,3 +45,18 @@ def link_group_to_event(db: Session, event: models.Event, group: Group):
   db.commit()
   db.refresh(event)
   return event
+
+def update_event(db: Session, event_uuid: str, update_data: schemas.EventUpdate):
+  """Updates a event by their UUID."""
+  db_obj = get_event_by_uuid(db, event_uuid)
+  if not db_obj:
+    return None
+  
+  update_dict = update_data.model_dump(exclude_unset=True)
+  
+  for key, value in update_dict.items():
+    setattr(db_obj, key, value)
+    
+  db.commit()
+  db.refresh(db_obj)
+  return db_obj

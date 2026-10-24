@@ -1,13 +1,14 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from sqlalchemy.orm import Session
-from typing import List
 
-from database import get_db
 import schemas as global_schemas
-from . import schemas as expense_schema
+from database import get_db
+from modules.stream.broadcaster import broadcaster
+
+from ..events import schemas as event_schema  # noqa: F401
 from ..groups import schemas as group_schema  # noqa: F401
 from ..users import schemas as user_schema  # noqa: F401
-from ..events import schemas as event_schema  # noqa: F401
+from . import schemas as expense_schema
 from . import service as crud
 
 router = APIRouter(prefix='/expenses', tags=['Expenses'])
@@ -19,9 +20,13 @@ router = APIRouter(prefix='/expenses', tags=['Expenses'])
   status_code=201,
 )
 def create_expense(
-  expense: expense_schema.ExpenseCreate, db: Session = Depends(get_db)
+  expense: expense_schema.ExpenseCreate,
+  background_tasks: BackgroundTasks,  # 1. Add BackgroundTasks here
+  db: Session = Depends(get_db),
 ):
-  """Creates a new expense and links the owner, event, and participants."""
+  """
+  Creates a new expense and links the owner, event, and participants.
+  """
 
   db_event = crud.get_event_by_uuid(db, event_uuid=expense.event_id)
   if not db_event:
@@ -35,7 +40,33 @@ def create_expense(
     db=db, expense=expense, db_owner=db_owner, db_event=db_event
   )
 
+  broadcast_data = {
+    'action': 'EXPENSE_CREATED',
+    'entity': 'expense',
+    'event_uuid': str(expense.event_id),
+    'expense_id': str(db_expense.id),
+  }
+
+  background_tasks.add_task(
+    broadcaster.publish, event_id=expense.event_id, message=broadcast_data
+  )
+
   return global_schemas.success_response(data=db_expense, code=201)
+
+
+@router.get(
+  '/{expense_uuid}',
+  response_model=global_schemas.StandardResponse[expense_schema.ExpenseResponse],
+  status_code=200,
+)
+def get_expense(expense_uuid: str, db: Session = Depends(get_db)):
+  """Retrieves a specific expense by UUID"""
+  expense = crud.get_expense_by_id(db, expense_uuid=expense_uuid)
+
+  if not expense:
+    raise HTTPException(status_code=404, detail='Expense not found')
+
+  return global_schemas.success_response(data=expense, code=200)
 
 
 @router.put(
@@ -58,7 +89,7 @@ def update_expense(
 
 @router.get(
   '/event/{event_uuid}',
-  response_model=global_schemas.StandardResponse[List[expense_schema.ExpenseResponse]],
+  response_model=global_schemas.StandardResponse[list[expense_schema.ExpenseResponse]],
   status_code=200,
 )
 def get_event_expenses(event_uuid: str, db: Session = Depends(get_db)):
@@ -73,7 +104,7 @@ def get_event_expenses(event_uuid: str, db: Session = Depends(get_db)):
 
 @router.get(
   '/event/{event_uuid}/user/{user_uuid}',
-  response_model=global_schemas.StandardResponse[List[expense_schema.ExpenseResponse]],
+  response_model=global_schemas.StandardResponse[list[expense_schema.ExpenseResponse]],
   status_code=200,
 )
 def get_user_event_expenses(
@@ -90,4 +121,3 @@ def get_user_event_expenses(
 
   expenses = crud.get_user_expenses_for_event(db, db_event=db_event, db_user=db_user)
   return global_schemas.success_response(data=expenses, code=200)
-

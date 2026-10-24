@@ -16,13 +16,6 @@ class ExpenseCreate(ExpenseBase):
   participant_ids: List[str] = []
 
 
-class ExpenseUpdate(ExpenseBase):
-  title: str
-  description: str
-  date: Optional[datetime] = None
-  amount: float
-  participant_ids: List[str] = []
-
 class ExpenseResponse(ExpenseBase):
   id: int
   uuid: str
@@ -32,3 +25,12 @@ class ExpenseResponse(ExpenseBase):
   participants: List['UserBase'] = []  # noqa: F821
 
   model_config = ConfigDict(from_attributes=True)
+
+class ExpenseUpdate(BaseModel):
+  title: Optional[str] = None
+  description: Optional[str] = None
+  date: Optional[datetime] = None
+  amount: Optional[float] = None
+  owner_id: Optional[str] = None
+  event_id: Optional[str] = None
+  participant_ids: Optional[List[str]] = None

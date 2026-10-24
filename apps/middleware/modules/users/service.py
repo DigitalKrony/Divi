@@ -39,3 +39,18 @@ def create_user(db: Session, user: schemas.UserCreate):
   db.refresh(db_user)
 
   return db_user
+
+def update_user(db: Session, user_uuid: str, update_data: schemas.UserUpdate):
+  """Updates a user by their UUID."""
+  db_obj = get_user_by_uuid(db, user_uuid)
+  if not db_obj:
+    return None
+  
+  update_dict = update_data.model_dump(exclude_unset=True)
+  
+  for key, value in update_dict.items():
+    setattr(db_obj, key, value)
+    
+  db.commit()
+  db.refresh(db_obj)
+  return db_obj

@@ -1,22 +1,29 @@
 import asyncio
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from fastapi.responses import StreamingResponse
 
-router = APIRouter(prefix='/stream', tags=['Stream'])
+from .broadcaster import broadcaster
+
+router = APIRouter(prefix='/stream', tags=['Real-Time'])
 
 
-async def event_generator():
+@router.get('/events/{event_id}')
+async def stream_event_updates(event_id: int, request: Request):
   """
-  Simulates checking the database for new entries.
-  In production, this could listen to a Postgres channel or message queue.
+  Endpoint for EventSource, holds connection and yields data.
   """
-  while True:
-    await asyncio.sleep(5)
 
-    yield 'data: {"message": "New entry added!", "timestamp": "xyz"}\n\n'
+  async def event_generator():
+    queue = await broadcaster.subscribe(event_id)
+    try:
+      while not await request.is_disconnected():
+        yield await queue.get()
 
+    except asyncio.CancelledError:
+      pass
+    finally:
+      # Always clean up the queue to prevent memory leaks!
+      broadcaster.unsubscribe(event_id, queue)
 
-@router.get('/entries')
-async def stream_new_entries():
   return StreamingResponse(event_generator(), media_type='text/event-stream')

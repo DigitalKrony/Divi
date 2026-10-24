@@ -1,5 +1,8 @@
+import asyncio
+
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
@@ -37,7 +40,7 @@ expense_schemas.ExpenseCreate.model_rebuild(_types_namespace=shared_namespace)
 expense_schemas.ExpenseResponse.model_rebuild(_types_namespace=shared_namespace)
 
 app = FastAPI(
-  title='Divi App v0.1.2',
+  title='Divi App v0.1.3',
   root_path='/api',
   openapi_url='/openapi.json',
 )
@@ -49,6 +52,22 @@ app.add_middleware(
   allow_methods=['*'],
   allow_headers=['*'],
 )
+
+
+async def event_generator():
+  """
+  Simulates checking the database for new entries.
+  In production, this could listen to a Postgres channel or message queue.
+  """
+  while True:
+    await asyncio.sleep(5)
+
+    yield 'data: {"message": "New entry added!", "timestamp": "xyz"}\n\n'
+
+
+@app.get('/api/stream')
+async def stream_new_entries():
+  return StreamingResponse(event_generator(), media_type='text/event-stream')
 
 
 @app.get('/health', tags=['Health'])
@@ -74,6 +93,6 @@ if __name__ == '__main__':
   swagger_json = app.openapi()
 
   with open('./../../packages/divi-docs/src/swagger.json', 'w') as f:
-    json.dump(swagger_json, f, indent=2)
+    json.dump(swagger_json, f, indent=4)
 
   print('Successfully generated swagger.json file!')

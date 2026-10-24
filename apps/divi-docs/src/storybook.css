@@ -68,3 +68,16 @@
     min-height: 100%;
   }
 }
+
+.p_fl {
+  padding-block-end: 24px;
+  display: flex;
+  gap: 8px;
+  row-gap: 8px;
+  flex-wrap: wrap;
+
+  > * {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+}

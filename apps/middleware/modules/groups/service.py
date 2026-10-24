@@ -30,3 +30,18 @@ def link_user_to_group(db: Session, group: models.Group, user: User):
   db.commit()
   db.refresh(group)
   return group
+
+def update_group(db: Session, group_uuid: str, update_data: schemas.GroupUpdate):
+  """Updates a group by their UUID."""
+  db_obj = get_group_by_uuid(db, group_uuid)
+  if not db_obj:
+    return None
+  
+  update_dict = update_data.model_dump(exclude_unset=True)
+  
+  for key, value in update_dict.items():
+    setattr(db_obj, key, value)
+    
+  db.commit()
+  db.refresh(db_obj)
+  return db_obj

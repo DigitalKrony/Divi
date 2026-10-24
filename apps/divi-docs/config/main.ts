@@ -10,24 +10,20 @@ import { type StorybookConfig } from "@storybook/react-vite";
 
 const getStories = () => {
   const _root = join(process.env.INIT_CWD ?? cwd());
-  const sBlob = `src/**/*.{mdx,stories.@(js|jsx|mjs|cjs|ts|tsx)}`;
+  const sBlob = `src/**/*.{mdx,stories.@(js|jsx|ts|tsx|mjs|cjs)}`;
   const _stories = [];
 
   try {
-    let _package = JSON.parse(
-      readFileSync(resolve(_root, "package.json"), "utf8")
-    );
+    let _package = JSON.parse(readFileSync(resolve(_root, "package.json"), "utf8"));
 
     for (const i in _package.workspaces) {
-      const w = _package.workspaces[i];
-      const _sp = resolve(join(_root, w, sBlob));
-      _sp && _stories.push(`${_sp.replaceAll("\\", "/")}`);
+      _stories.push(`${resolve(join(_root, _package.workspaces[i], sBlob)).replaceAll("\\", "/")}`);
     }
   } catch (error) {
     console.log(`Blob Error: `, error);
   }
 
-  return _stories;
+  return globSync(_stories);
 };
 
 const config: StorybookConfig = {

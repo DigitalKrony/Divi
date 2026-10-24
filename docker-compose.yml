@@ -72,7 +72,7 @@ services:
     environment:
       CHOKIDAR_USEPOLLING: true
       ENVIRONMENT: ${ENVIRONMENT:-Development}
-      CI: 'true'
+      # CI: 'true'
     command: npm run start:docs:dev
 
 volumes:
