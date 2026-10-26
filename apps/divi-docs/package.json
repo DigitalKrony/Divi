@@ -7,7 +7,7 @@
   "scripts": {
     "build:docs": "STORYBOOK_CACHE_DIR=./.tmp/build-cache storybook build -c ./config -o ./dist",
     "start:prod": "node server.js",
-    "start:dev": "STORYBOOK_CACHE_DIR=./.tmp/dev-cache storybook dev -h localhost -p 5175 -c ./config",
+    "start:dev": "STORYBOOK_CACHE_DIR=./.tmp/dev-cache storybook dev -h 0.0.0.0 -p 5175 -c ./config --no-open",
     "lint": "eslint .",
     "test": "node ./config/_test.ts"
   },
