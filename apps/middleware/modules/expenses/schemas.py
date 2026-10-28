@@ -34,3 +34,11 @@ class ExpenseUpdate(BaseModel):
   owner_id: Optional[str] = None
   event_id: Optional[str] = None
   participant_ids: Optional[List[str]] = None
+
+
+class ExpenseDelete(BaseModel):
+  id: int
+  uuid: str
+
+  model_config = ConfigDict(from_attributes=True)
+

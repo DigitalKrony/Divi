@@ -17,6 +17,15 @@ def get_user_by_uuid(db: Session, user_uuid: str):
   return db.query(User).filter(User.uuid == user_uuid).first()
 
 
+def get_expense_by_uuid(db: Session, expense_uuid: str):
+  """Helper to validate an expense exists."""
+  return db.query(models.Expense).filter(models.Expense.uuid == expense_uuid).first()
+
+
+get_expense_by_id = get_expense_by_uuid
+
+
+
 def create_expense(
   db: Session,
   expense: schemas.ExpenseCreate,
@@ -77,3 +86,15 @@ def update_expense(db: Session, expense_uuid: str, update_data: schemas.ExpenseU
   db.commit()
   db.refresh(db_obj)
   return db_obj
+
+
+def delete_expense(db: Session, expense_uuid: str):
+  """Deletes an expense by their UUID."""
+  db_obj = get_expense_by_uuid(db, expense_uuid)
+  if not db_obj:
+    return None
+
+  db.delete(db_obj)
+  db.commit()
+  return db_obj
+

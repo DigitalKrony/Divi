@@ -87,6 +87,21 @@ def update_expense(
   return global_schemas.success_response(data=db_obj, code=200)
 
 
+@router.delete(
+  '/{expense_uuid}',
+  response_model=global_schemas.StandardResponse[expense_schema.ExpenseDelete],
+  status_code=200,
+)
+def delete_expense(expense_uuid: str, db: Session = Depends(get_db)):
+  """Deletes an expense by its UUID."""
+  db_obj = crud.delete_expense(db, expense_uuid=expense_uuid)
+  if not db_obj:
+    raise HTTPException(status_code=404, detail='Expense not found')
+
+  return global_schemas.success_response(data=db_obj, code=200)
+
+
+
 @router.get(
   '/event/{event_uuid}',
   response_model=global_schemas.StandardResponse[list[expense_schema.ExpenseResponse]],

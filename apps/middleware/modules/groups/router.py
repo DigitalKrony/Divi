@@ -54,6 +54,21 @@ def update_group(
   return global_schemas.success_response(data=db_obj, code=200)
 
 
+@router.delete(
+  '/{group_uuid}',
+  response_model=global_schemas.StandardResponse[group_schema.GroupDelete],
+  status_code=200,
+)
+def delete_group(group_uuid: str, db: Session = Depends(get_db)):
+  """Deletes a group by its UUID."""
+  db_obj = crud.delete_group(db, group_uuid=group_uuid)
+  if not db_obj:
+    raise HTTPException(status_code=404, detail='Group not found')
+
+  return global_schemas.success_response(data=db_obj, code=200)
+
+
+
 @router.post(
   '/{group_uuid}/members/{user_uuid}',
   response_model=global_schemas.StandardResponse[group_schema.GroupResponse],

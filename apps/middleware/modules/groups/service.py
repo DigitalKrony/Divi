@@ -10,6 +10,10 @@ def get_group_by_uuid(db: Session, group_uuid: str):
   return db.query(models.Group).filter(models.Group.uuid == group_uuid).first()
 
 
+get_group_by_id = get_group_by_uuid
+
+
+
 def get_user_by_uuid(db: Session, user_uuid: str):
   """Helper to fetch a user when adding them to a group."""
   return db.query(User).filter(User.uuid == user_uuid).first()
@@ -45,3 +49,15 @@ def update_group(db: Session, group_uuid: str, update_data: schemas.GroupUpdate)
   db.commit()
   db.refresh(db_obj)
   return db_obj
+
+
+def delete_group(db: Session, group_uuid: str):
+  """Deletes a group by their UUID."""
+  db_obj = get_group_by_uuid(db, group_uuid)
+  if not db_obj:
+    return None
+
+  db.delete(db_obj)
+  db.commit()
+  return db_obj
+

@@ -31,3 +31,11 @@ class GroupUpdate(BaseModel):
   group_image: Optional[str] = None
   group_header_image: Optional[str] = None
   location: Optional[str] = None
+
+
+class GroupDelete(BaseModel):
+  id: int
+  uuid: str
+
+  model_config = ConfigDict(from_attributes=True)
+

@@ -38,6 +38,36 @@ def get_event(event_uuid: str, db: Session = Depends(get_db)):
   return global_schemas.success_response(data=event, code=200)
 
 
+@router.put(
+  '/{event_uuid}',
+  response_model=global_schemas.StandardResponse[event_schema.EventResponse],
+  status_code=200,
+)
+def update_event(
+  event_uuid: str, update_data: event_schema.EventUpdate, db: Session = Depends(get_db)
+):
+  """Updates a event."""
+  db_obj = crud.update_event(db, event_uuid, update_data)
+  if not db_obj:
+    raise HTTPException(status_code=404, detail='Event not found')
+
+  return global_schemas.success_response(data=db_obj, code=200)
+
+
+@router.delete(
+  '/{event_uuid}',
+  response_model=global_schemas.StandardResponse[event_schema.EventDelete],
+  status_code=200,
+)
+def delete_event(event_uuid: str, db: Session = Depends(get_db)):
+  """Deletes an event by its UUID."""
+  db_obj = crud.delete_event(db, event_uuid=event_uuid)
+  if not db_obj:
+    raise HTTPException(status_code=404, detail='Event not found')
+
+  return global_schemas.success_response(data=db_obj, code=200)
+
+
 @router.post(
   '/{event_uuid}/users/{user_uuid}',
   response_model=global_schemas.StandardResponse[event_schema.EventResponse],
@@ -110,19 +140,3 @@ def get_event_groups(event_uuid: str, db: Session = Depends(get_db)):
     raise HTTPException(status_code=404, detail='Event not found')
 
   return global_schemas.success_response(data=event.groups, code=200)
-
-
-@router.put(
-  '/{event_uuid}',
-  response_model=global_schemas.StandardResponse[event_schema.EventResponse],
-  status_code=200,
-)
-def update_event(
-  event_uuid: str, update_data: event_schema.EventUpdate, db: Session = Depends(get_db)
-):
-  """Updates a event."""
-  db_obj = crud.update_event(db, event_uuid, update_data)
-  if not db_obj:
-    raise HTTPException(status_code=404, detail='Event not found')
-
-  return global_schemas.success_response(data=db_obj, code=200)

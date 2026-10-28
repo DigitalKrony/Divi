@@ -60,3 +60,15 @@ def update_event(db: Session, event_uuid: str, update_data: schemas.EventUpdate)
   db.commit()
   db.refresh(db_obj)
   return db_obj
+
+
+def delete_event(db: Session, event_uuid: str):
+  """Deletes an event by their UUID."""
+  db_obj = get_event_by_uuid(db, event_uuid)
+  if not db_obj:
+    return None
+
+  db.delete(db_obj)
+  db.commit()
+  return db_obj
+

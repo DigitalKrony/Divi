@@ -54,3 +54,15 @@ def update_user(db: Session, user_uuid: str, update_data: schemas.UserUpdate):
   db.commit()
   db.refresh(db_obj)
   return db_obj
+
+
+def delete_user(db: Session, user_uuid: str):
+  """Deletes a user by their UUID."""
+  db_obj = get_user_by_uuid(db, user_uuid)
+  if not db_obj:
+    return None
+
+  db.delete(db_obj)
+  db.commit()
+  return db_obj
+

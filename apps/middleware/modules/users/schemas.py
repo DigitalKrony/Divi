@@ -74,3 +74,11 @@ class UserUpdate(BaseModel):
   email_address: Optional[str] = None
   address: Optional['AddressCreate'] = None
   pay_accounts: Optional[List['PayAccountCreate']] = None
+
+
+class UserDelete(BaseModel):
+  id: int
+  uuid: str
+
+  model_config = ConfigDict(from_attributes=True)
+

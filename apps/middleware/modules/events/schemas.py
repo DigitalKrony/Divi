@@ -33,3 +33,11 @@ class EventUpdate(BaseModel):
   location: Optional[str] = None
   start_date: Optional[datetime] = None
   end_date: Optional[datetime] = None
+
+
+class EventDelete(BaseModel):
+  id: int
+  uuid: str
+
+  model_config = ConfigDict(from_attributes=True)
+
