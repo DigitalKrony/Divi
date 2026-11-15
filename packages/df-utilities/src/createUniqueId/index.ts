@@ -2,7 +2,7 @@
  * Copyright (C) Design:Funedikly. All rights reserved.
  */
 
-import { randomChar } from '../randomChar';
+import { randomChar } from '../randomChar/index.js';
 
 /**
  * Get UniqueId so as to avoid id conflict between multiple fields bind to same attribute

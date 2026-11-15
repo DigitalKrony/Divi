@@ -1,3 +1,7 @@
+/*!
+ * Copyright (C) Design:Funedikly. All rights reserved.
+ */
+
 import React, { useEffect, useState } from 'react';
 
 export const LiveDashboard: React.FC = () => {

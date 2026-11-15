@@ -1,0 +1,21 @@
+{
+  "name": "@df/run-ws",
+  "version": "0.1.0",
+  "main": "./cli.js",
+  "type": "module",
+  "scripts": {
+    "prebuild": "npm run build --workspace=@df/utilities",
+    "build": "tsc",
+    "build:prod": "npm run build --env=PROD",
+    "start:dev": "tsc --watch",
+    "test": "node ./lib/cli.js"
+  },
+  "exports": {
+    ".": "./index.js"
+  },
+  "dependencies": {
+    "@df/utilities": "~0.1.0",
+    "@df/glaze": "~0.1.0"
+  },
+  "devDependencies": {}
+}

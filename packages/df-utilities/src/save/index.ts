@@ -4,7 +4,7 @@
 
 import fs from "node:fs";
 
-import { BuildDirectory } from "./../buildDirectory";
+import { BuildDirectory } from "./../buildDirectory/index.js";
 
 export const Save = (src: string, data: any, cb?: (err?: any) => void) => {
   BuildDirectory(src, true);

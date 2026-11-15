@@ -4,7 +4,7 @@
 
 import fs from 'node:fs';
 
-import { BuildDirectory } from './';
+import { BuildDirectory } from './index.js';
 
 export const Copy = (source: string, target: string, cb: (err?: Error) => void) => {
     let cbCalled = false;
@@ -12,12 +12,12 @@ export const Copy = (source: string, target: string, cb: (err?: Error) => void) 
     BuildDirectory(target);
 
     let rd = fs.createReadStream(source);
-    rd.on('error', (err) => {
+    rd.on('error', (err: Error) => {
         done(err);
     });
 
     let wr = rd.pipe(fs.createWriteStream(target));
-    wr.on('error', (err) => {
+    wr.on('error', (err: Error) => {
         console.warn(`There has been a copy file write error: ${err}`);
         done(err);
     });

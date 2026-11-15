@@ -6,7 +6,7 @@ import { join, resolve } from "node:path";
 import { readFileSync, globSync } from "node:fs";
 import { cwd } from "node:process";
 
-const getStories = () => {
+export const getStories = () => {
   const _root = join(process.env.INIT_CWD ?? cwd());
   const sBlob = `src/**/*.{mdx,stories.@(js|jsx|mjs|cjs|ts|tsx)}`;
   const _stories = [];

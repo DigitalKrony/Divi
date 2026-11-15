@@ -1,0 +1,21 @@
+{
+  "extends": [
+    "./../../.common/config/typescript/tsconfig.node.json",
+    "./../../.common/config/typescript/tsconfig.app.json"
+  ],
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./lib",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "allowImportingTsExtensions": false,
+    "types": ["node"],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@df/utilities/*": ["../../packages/df-utilities/lib/*"]
+    }
+  },
+  "typeRoots": ["node_modules/@types"],
+  "include": ["./src/**/*"],
+  "exclude": ["lib", "lib-cjs", "node_modules"]
+}

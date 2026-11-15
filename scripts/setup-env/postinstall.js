@@ -1,6 +1,7 @@
 import { existsSync, cpSync, globSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { exec, spawn } from 'node:child_process';
+
 import Glaze from '@df/glaze';
 
 const git_url = `https://github.com/heroui-inc/heroui.git`;

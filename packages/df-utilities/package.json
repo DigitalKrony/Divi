@@ -2,7 +2,7 @@
   "name": "@df/utilities",
   "version": "0.1.0",
   "description": "A thing",
-  "main": "./src",
+  "main": "./lib",
   "author": "Adam Sivins<adam.sivins@gmail.com>",
   "license": "MIT",
   "type": "module",
@@ -13,8 +13,10 @@
     "start:dev": "tsc --watch"
   },
   "exports": {
-    ".": "./src/index.ts",
-    "./*": "./src/*"
+    ".": "./lib/index.js",
+    "./*": "./lib/*",
+    "./src": "./src/index.ts",
+    "./src/*": "./src/*"
   },
   "dependencies": {
     "chalk": "^2.4.2",
@@ -22,7 +24,7 @@
     "glob": "^11.1.0"
   },
   "devDependencies": {
-    "@types/node": "^22.20.1",
+    "@types/node": "^24.19.2",
     "@typescript-eslint/parser": "^8.43.0",
     "eslint": "^9.35.0",
     "eslint-config-prettier": "^10.1.1",

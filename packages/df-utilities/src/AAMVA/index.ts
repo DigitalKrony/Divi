@@ -2,6 +2,6 @@
  * Copyright (C) Design:Funedikly. All rights reserved.
  */
 
-export { ElementIDs, type AAMVAElement } from './data';
-export { parseAAMVADate } from './date';
-export { parseAAMVA } from './identificaiton';
+export { ElementIDs, type AAMVAElement } from './data.js';
+export { parseAAMVADate } from './date.js';
+export { parseAAMVA } from './identificaiton.js';

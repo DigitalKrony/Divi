@@ -15,6 +15,12 @@
     "USEPOLLING",
     "uvicorn"
   ],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
   "eslint.workingDirectories": [{ "mode": "auto" }],
-  "editor.tabSize": 2
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.tabSize": 2,
+  "js/ts.tsdk.path": "node_modules\\typescript\\lib"
 }

@@ -1,14 +1,15 @@
 {
-  "baseDir": "./src",
-  "rootDir": "./src",
-  "references": [
-    { "path": "./../../.common/config/typescript/tsconfig.node.json" },
-    { "path": "./../../.common/config/typescript/tsconfig.app.json" }
+  "extends": [
+    "./../../.common/config/typescript/tsconfig.node.json",
+    "./../../.common/config/typescript/tsconfig.app.json"
   ],
   "compilerOptions": {
+    "rootDir": "./src",
     "outDir": "./lib",
-    "baseUrl": "./src",
-    "ignoreDeprecations": "6.0",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "allowImportingTsExtensions": false,
+    "types": ["node"],
     "paths": {
       "@/*": ["./src/*"]
     }

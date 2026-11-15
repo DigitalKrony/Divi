@@ -2,7 +2,7 @@
  * Copyright (C) Design:Funedikly. All rights reserved.
  */
 
-import { parseAAMVADate, ElementIDs, type AAMVAElement } from '.';
+import { parseAAMVADate, ElementIDs, type AAMVAElement } from './index.js';
 
 export const parseAAMVA = (rawString: string): Record<string, any> | undefined => {
   const result: Record<string, any> = {};

@@ -2,8 +2,8 @@
  * Copyright (C) Design:Funedikly. All rights reserved.
  */
 
-import { join, resolve } from "node:path";
 import { readFileSync, globSync } from "node:fs";
+import { join, resolve } from "node:path";
 import { cwd } from "node:process";
 
 import { type StorybookConfig } from "@storybook/react-vite";

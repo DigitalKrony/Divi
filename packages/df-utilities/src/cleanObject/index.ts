@@ -18,7 +18,7 @@ export const cleanObject = (input: any): any => {
       .filter((item: any) => item !== null);
   }
 
-  return Object.keys(input).reduce((acc, key) => {
+  return Object.keys(input).reduce((acc: any, key: string) => {
     const value = input[key];
 
     if (value !== null) {

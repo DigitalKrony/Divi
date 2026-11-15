@@ -1,6 +1,7 @@
 {
-  "name": "@cai/setup-env",
+  "name": "@df/setup-env",
   "version": "0.1.0",
+  "type": "module",
   "scripts": {
     "start": "node ./"
   },

@@ -18,17 +18,14 @@
     "start:docs:prod": "node ./packages/web-server -w @divi/docs",
     "start:web:dev": "npm run start:dev -w @divi/web",
     "start:web:prod": "node ./packages/web-server",
-
     "docker:dev:build": "docker compose -f docker-compose.yml build",
     "docker:dev:build:fresh": "docker compose -f docker-compose.yml build --no-cache",
     "docker:prod:build": "docker compose -f docker-compose.prod.yml build",
     "docker:prod:build:fresh": "docker compose -f docker-compose.prod.yml build --no-cache",
-
     "docker:dev:up": "docker compose -f docker-compose.yml up -d",
     "docker:dev:up:recreate": "docker compose -f docker-compose.yml up -d --force-recreate",
     "docker:prod:up": "docker compose -f docker-compose.prod.yml up -d",
     "docker:prod:up:recreate": "docker compose -f docker-compose.prod.yml up -d --force-recreate",
-
     "docker:dev": "npm-run-all -s docker:dev:build docker:dev:up",
     "docker:dev:clean": "npm-run-all -s docker:dev:build:fresh docker:dev:up:recreate",
     "docker:prod": "npm-run-all -s docker:prod:build docker:prod:up",
@@ -38,12 +35,14 @@
     "./apps/middleware",
     "./apps/web",
     "./apps/divi-docs",
-    "./packages/glaze",
+    "./packages/df-glaze",
     "./packages/df-dux",
     "./packages/df-mocker",
+    "./packages/df-style-pro",
     "./packages/df-utilities",
-    "./packages/web-server",
-    "./scripts/setup-env"
+    "./packages/divi-web-server",
+    "./scripts/setup-env",
+    "./scripts/run-ws"
   ],
   "allowScripts": {
     "esbuild": true,
@@ -52,8 +51,8 @@
     "@carbon/icon-helpers@10.78.0": true,
     "vue-demi@0.14.10": true
   },
-  "dependencies": {},
   "devDependencies": {
+    "@eslint/compat": "^2.0.0",
     "@eslint/js": "^10.0.1",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.3",

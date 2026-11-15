@@ -2,7 +2,7 @@
  * Copyright (C) Design:Funedikly. All rights reserved.
  */
 
-import { randomChar } from '../randomChar';
+import { randomChar } from '../randomChar/index.js';
 
 export const createHexKey = (args: { lengths: number[]; delimiter?: string }): string => {
   const { lengths, delimiter = '-' } = args;
