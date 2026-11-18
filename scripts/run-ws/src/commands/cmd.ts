@@ -8,6 +8,7 @@ import {
   getWorkspacePackages,
   getWorkspacePackageWeb,
   findCircularWorkspaceDependencies,
+  getWorkspacePackageOrder,
 } from "./../utilities/index.js";
 import { globalArgs } from "./index.js";
 import type { GlobalOptionValues } from "./index.js";
@@ -48,16 +49,11 @@ export const runWorkspaceCommand = (
     process.exit(1);
   }
 
-  const runCommand = positionals[0];
-  const hasCommand = Object.values(_ws)
-    .filter((workspacePackage) =>
-      Boolean(runCommand && workspacePackage.scripts?.[runCommand])
-    )
-    .map((workspacePackage) => workspacePackage.name)
-    .filter((name): name is string => Boolean(name));
+  const commandOrder = getWorkspacePackageOrder(_ws, packageWeb);
 
   (values.verbose || values.debug) && console.log("packageWeb: ", packageWeb);
-  (values.verbose || values.debug) && console.log("hasCommand: ", hasCommand);
+  (values.verbose || values.debug) &&
+    console.log("commandOrder: ", commandOrder);
 
   console.log(`Running ${positionals.join(", ")} as ${values.env}`);
 };

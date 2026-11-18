@@ -9,7 +9,7 @@
   },
   "scripts": {
     "preinstall": "node ./scripts/setup-env/preinstall.cjs",
-    "postinstall": "node ./scripts/setup-env/postinstall.js",
+    "postinstall": "npm run build --workspace=@df/run-ws && node ./scripts/setup-env/postinstall.js",
     "npm:clean-up": "sudo rm -rf node_modules package-lock.json packages/**/node_modules apps/**/node_modules && npm cache clean --force",
     "build:docs:prod": "npm run build:docs -w @divi/docs",
     "build:web:prod": "npm run build:prod -w @divi/web",

@@ -5,7 +5,9 @@
   "scripts": {
     "start": "node ./"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@df/glaze": "~0.1.0"
+  },
   "devDependencies": {},
   "globalDependencies": {
     "create-react-app": "latest",

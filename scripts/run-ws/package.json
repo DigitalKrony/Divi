@@ -1,21 +1,24 @@
 {
   "name": "@df/run-ws",
   "version": "0.1.0",
-  "main": "./cli.js",
+  "main": "./lib/cli.js",
   "type": "module",
+  "bin": {
+    "run-ws": "./lib/cli.js"
+  },
   "scripts": {
-    "prebuild": "npm run build --workspace=@df/utilities",
+    "prebuild": "npm run build --workspace=@df/utilities && npm run build --workspace=@df/glaze",
     "build": "tsc",
     "build:prod": "npm run build --env=PROD",
     "start:dev": "tsc --watch",
-    "test": "node ./lib/cli.js"
-  },
-  "exports": {
-    ".": "./index.js"
+    "test": "node ./lib/cli.js cmd build"
   },
   "dependencies": {
     "@df/utilities": "~0.1.0",
     "@df/glaze": "~0.1.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "typescript": "~7.0.2"
+  }
 }

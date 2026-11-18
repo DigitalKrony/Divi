@@ -61,6 +61,7 @@ export const getWorkspacePackageWeb = (
     const dependencies = getWorkspaceDependencies(
       workspacePackage.dependencies
     );
+
     const devDependencies = getWorkspaceDependencies(
       workspacePackage.devDependencies
     );
@@ -88,6 +89,7 @@ export const findCircularWorkspaceDependencies = (
     path.push(packageName);
 
     const packageDependencies = packageWeb[packageName];
+
     const dependencies = Array.isArray(packageDependencies)
       ? packageDependencies
       : packageDependencies
@@ -117,4 +119,82 @@ export const findCircularWorkspaceDependencies = (
   }
 
   return cycles;
+};
+
+export const getWorkspacePackageOrder = (
+  workspacePackages: Record<string, PackageJson>,
+  packageWeb: Record<string, string[] | WorkspacePackageDependencies>
+): string[][] => {
+  const packageNames = [
+    ...new Set(
+      Object.values(workspacePackages)
+        .map((workspacePackage) => workspacePackage.name)
+        .filter((name): name is string => Boolean(name))
+    ),
+  ];
+  const workspacePackageNames = new Set(packageNames);
+
+  const getWorkspaceDependencies = (packageName: string) => {
+    const packageDependencies = packageWeb[packageName];
+    const dependencies = Array.isArray(packageDependencies)
+      ? packageDependencies
+      : packageDependencies
+      ? [
+          ...packageDependencies.dependencies,
+          ...packageDependencies.devDependencies,
+        ]
+      : [];
+
+    return dependencies.filter((dependency) =>
+      workspacePackageNames.has(dependency)
+    );
+  };
+
+  const dependenciesByPackage = new Map(
+    packageNames.map((packageName) => [
+      packageName,
+      getWorkspaceDependencies(packageName),
+    ])
+  );
+
+  const dependedOnPackages = new Set(
+    [...dependenciesByPackage.values()].flat()
+  );
+
+  const independentPackages = packageNames.filter(
+    (packageName) =>
+      dependenciesByPackage.get(packageName)?.length === 0 &&
+      !dependedOnPackages.has(packageName)
+  );
+
+  const remaining = new Set(
+    packageNames.filter(
+      (packageName) => !independentPackages.includes(packageName)
+    )
+  );
+
+  const groups: string[][] = [];
+
+  while (remaining.size > 0) {
+    const readyPackages = [...remaining].filter((packageName) =>
+      dependenciesByPackage
+        .get(packageName)
+        ?.every((dependency) => !remaining.has(dependency))
+    );
+
+    if (readyPackages.length === 0) {
+      throw new Error(
+        "Cannot order workspace packages: circular dependencies detected."
+      );
+    }
+
+    groups.push(readyPackages);
+    readyPackages.forEach((packageName) => remaining.delete(packageName));
+  }
+
+  if (independentPackages.length > 0) {
+    groups.push(independentPackages);
+  }
+
+  return groups;
 };
