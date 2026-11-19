@@ -1,17 +1,22 @@
 import { glaze_colors } from "./colors";
-import { ColorThemeGroup, ColorGroup, GlazeColors } from "./glaze.types";
+import type {
+  ColorGroup,
+  ColorThemeGroup,
+  GlazeColorName,
+  GlazeFormatOptions,
+  GlazeInstance,
+  GlazeOptions,
+} from "./glaze.types";
 
 class glaze {
   constructor() {
-    const { colors } = glaze_colors as GlazeColors;
+    const { colors } = glaze_colors;
 
     for (const depth in colors) {
       const theDepth: ColorThemeGroup = (colors as any)[depth];
       for (const level in theDepth) {
         const theLevel: ColorGroup = (theDepth as any)[level];
         for (const color in theLevel) {
-          // const theColor = theLevel[color];
-
           if (!!(this as any)[color]) {
             continue;
           }
@@ -20,9 +25,9 @@ class glaze {
             enumerable: true,
             writable: false,
             configurable: false,
-            value: (str: string, props: any) => {
+            value: (str: string, props: GlazeOptions = {}) => {
               return this.wrapString(str, {
-                color,
+                color: color as GlazeColorName,
                 background: false,
                 bright: false,
                 ...props,
@@ -43,17 +48,19 @@ class glaze {
     });
   }
 
-  wrapString(str: string, props: any) {
+  wrapString(str: string, props: GlazeFormatOptions): string {
     const { colors, close } = glaze_colors;
     const { color, background, bright } = props;
+
     return `${
       (colors as any)[background ? "background" : "foreground"][
         bright ? "bright" : "standard"
-      ]
+      ][color]
     }${str}${close}`;
+  
   }
 }
 
-const Glaze = new glaze();
+const Glaze = new glaze() as GlazeInstance;
 
-module.exports = Glaze;
+export = Glaze;

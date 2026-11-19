@@ -3,10 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "type": "commonjs",
-  "main": "./index.js",
+  "main": "./lib",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
   "scripts": {
     "build": "tsc",
-    "watch": "tsc --watch"
+    "start:dev": "tsc --watch"
   },
   "devDependencies": {
     "@types/node": "^24.13.3",

@@ -1,10 +1,10 @@
 {
-  "name": "@df/run-ws",
+  "name": "@df/npw",
   "version": "0.1.0",
   "main": "./lib/cli.js",
   "type": "module",
   "bin": {
-    "run-ws": "./lib/cli.js"
+    "npw": "./lib/cli.js"
   },
   "scripts": {
     "prebuild": "npm run build --workspace=@df/utilities && npm run build --workspace=@df/glaze",

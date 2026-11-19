@@ -21,10 +21,9 @@ export const runPoll = (
   const values = { ...commandValues, ...globalValues };
 
   if (values.help) {
-    console.log("Usage: run-ws poll [--add]");
+    console.log("Usage: npw poll [--add]");
     return;
   }
-
-  // Fully typed: values.minify (boolean | undefined)
-  console.log(`Building (minify: ${Boolean(values.add)})`);
+  
+  console.log(`Building ${JSON.stringify(values)}`);
 };

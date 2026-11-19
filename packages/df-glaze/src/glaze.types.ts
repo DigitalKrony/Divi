@@ -28,3 +28,35 @@ export interface GlazeColors {
   rgb: ColorThemeGroup;
   close: string;
 }
+
+export type GlazeColorName =
+  | "black"
+  | "red"
+  | "green"
+  | "yellow"
+  | "blue"
+  | "magenta"
+  | "cyan"
+  | "white";
+
+export interface GlazeOptions {
+  color?: GlazeColorName;
+  background?: boolean;
+  bright?: boolean;
+}
+
+export interface GlazeFormatOptions extends GlazeOptions {
+  color: GlazeColorName;
+}
+
+export type GlazeColorMethod = (
+  str: string,
+  options?: GlazeOptions
+) => string;
+
+export type GlazeInstance = {
+  readonly [color in GlazeColorName]: GlazeColorMethod;
+} & {
+  readonly help: (str: string) => void;
+  wrapString: (str: string, options: GlazeFormatOptions) => string;
+};

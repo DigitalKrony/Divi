@@ -8,9 +8,10 @@ import { parseArgs } from "node:util";
 import { globalArgs, runWorkspaceCommand, runPoll } from "./commands/index.js";
 import type { GlobalOptionValues } from "./commands/index.js";
 import type { CommandHandler } from "./cli.types.js";
+import Glaze from "@df/glaze";
 
 const commands: Record<string, CommandHandler> = {
-  cmd: runWorkspaceCommand,
+  run: runWorkspaceCommand,
   poll: runPoll,
 };
 
@@ -25,7 +26,7 @@ const { values, positionals } = parseArgs({
 const subCommand = positionals[0];
 
 if (!subCommand) {
-  console.log("Usage: run-ws <command> [options]");
+  console.log("Usage: npw <command> [options]");
   console.log(`Available commands: ${Object.keys(commands).join(", ")}`);
   process.exit(values.help ? 0 : 1);
 }
@@ -33,7 +34,7 @@ if (!subCommand) {
 const handler = commands[subCommand];
 
 if (!handler) {
-  console.error(`Unknown command: ${subCommand}`);
+  console.error(Glaze.red(`Unknown command: `), Glaze.red(`${subCommand}`, {background:true}));
   process.exit(1);
 }
 
@@ -46,4 +47,4 @@ const globalValues: GlobalOptionValues = {
   debug: typeof values.debug === "boolean" ? values.debug : undefined,
 };
 
-handler(commandArgs, globalValues);
+await handler(commandArgs, globalValues);

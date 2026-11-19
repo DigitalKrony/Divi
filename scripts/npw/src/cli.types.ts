@@ -7,4 +7,4 @@ import type { GlobalOptionValues } from "./commands/index.js";
 export type CommandHandler = (
   args: string[],
   globalValues: GlobalOptionValues
-) => void;
+) => void | Promise<void>;
