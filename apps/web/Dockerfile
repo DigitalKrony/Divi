@@ -13,6 +13,4 @@ ENV NODE_ENV=production
 
 RUN npm run build:web:prod
 
-# WORKDIR /app/apps/web
-
 EXPOSE 3000
